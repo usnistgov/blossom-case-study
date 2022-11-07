@@ -1,0 +1,26 @@
+version: '3.9'
+services:
+
+  # docker-compose -f docker-compose.yml up
+  important:
+    image: python:3.10-alpine
+    working_dir: /code
+    ports:
+      - "10000:10000"
+    volumes:
+      - ./:/code
+    entrypoint: ["/bin/sh","run.sh"]
+
+
+  # docker-compose -f docker-compose.yml --profile=testing up
+  testing-framework:
+    image: cypress/included:10.11.0
+    # ipc: host
+    working_dir: /e2e
+    profiles:
+      - testing
+    depends_on:
+      - important
+    volumes:
+      - ./:/e2e
+  
