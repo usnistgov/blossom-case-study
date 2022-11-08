@@ -1,0 +1,20 @@
+{
+  "name": "a-very-important-app",
+  "version": "0.0.1",
+  "description": "UI Test Scripts",
+  "main": "cypress.config.js",
+  "directories": {
+    "test": "test"
+  },
+  "devDependencies": {
+    "cypress": "^10.2.0"
+  },
+  "scripts": {
+    "build": "npx gulp init",
+    "test": "cypress run",
+    "test-install": "cypress install",
+    "cypress:open": "cypress open"
+  },
+  "author": "",
+  "license": ""
+}
