@@ -39,7 +39,7 @@ assessment-plan:
         title: "Execute pytest"
         description: "This is just to test the concept of executing some script or action within the repository."
         rlinks:
-          - href: script/app_assessment.py
+          - href: assessment/test_ac-8.py
             media-type: text/plain
             hashes:
               - algorithm: SHA-256
