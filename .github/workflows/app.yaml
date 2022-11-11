@@ -26,24 +26,29 @@ jobs:
         run: |
           pip install -r requirements.txt
 
+      - name: Execute OSCAL Validation
+        id: oscal-validation
+        uses: ./.github/actions/oscal-validation
+
       - name: Run tests.
         run: |
           pytest
 
-      - name: Execute script.
+      - name: Start application.
         run: |
           cd app
-          docker-compose -f docker-compose.yml --profile=testing up
-
-      - name: Execute OSCAL Validation
-        id: oscal-validation
-        uses: ./.github/actions/oscal-validation
+          docker-compose -f docker-compose.yml --profile=testing up -d
 
       - name: Execute OSCAL Assessment Plan
         id: oscal-assessment-plan
         uses: ./.github/actions/oscal-assessment-plan-execute
         with:
           oscal-assessment-plan: '.oscal/assessment-plan/sample-plan.yaml'
+
+      - name: Shut down application.
+        run: |
+          cd app
+          docker-compose -f docker-compose.yml --profile=testing down
 
       - name: Get the output information from Assessment Execution
         run: |
