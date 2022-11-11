@@ -1,0 +1,20 @@
+# action.yml
+name: 'Execute OSCAL Assessment Plan'
+description: 'Executes assessment plan based on an assessment-plan yaml file'
+inputs:
+  oscal-assessment-plan:
+    description: 'The OSCAL assessment plan to execute.'
+    required: true
+    default: .oscal/assessment-plan/sample-plan.yaml
+outputs:
+  model:
+    description: 'The oscal assessment plan model.'
+  location:
+    description: 'The file location of assessment.'
+  time:
+    description: 'The time of assessment.'
+runs:
+  using: 'docker'
+  image: 'Dockerfile'
+  args:
+    - ${{ inputs.oscal-assessment-plan }}
