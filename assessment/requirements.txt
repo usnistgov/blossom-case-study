@@ -1,0 +1,2 @@
+simplejson>=3.17.6
+pytest==7.1.1
