@@ -19,4 +19,4 @@ cat $models
 ls -ltra
 
 echo "Validating SSPs"
-find ./system-security-plan -type f -name '*.json' -exec /opt/oscal-cli/bin/oscal-cli ssp validate {} \;
+find .oscal/**/ -type f -name '*.yaml' -exec /opt/oscal-cli/bin/oscal-cli assessment-plan validate {} \;
