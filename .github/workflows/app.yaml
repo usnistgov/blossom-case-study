@@ -9,9 +9,6 @@ on:
 jobs:
   application_test:
     runs-on: ubuntu-20.04
-    # defaults:
-    #   run:
-    #     working-directory: assessment
     steps:
       - name: Check out repository code.
         uses: actions/checkout@v3
@@ -26,6 +23,9 @@ jobs:
         run: |
           pip install -r requirements.txt
 
+  oscal_validate:
+    runs-on: ubuntu-20.04
+    steps:
       - name: Execute OSCAL Validation
         id: oscal-validation
         uses: ./.github/actions/oscal-validation
@@ -34,6 +34,9 @@ jobs:
         run: |
           pytest
 
+  oscal_assessment:
+    runs-on: ubuntu-20.04
+    steps:
       - name: Start application.
         run: |
           cd app
@@ -50,6 +53,9 @@ jobs:
           cd app
           docker-compose -f docker-compose.yml --profile=testing down
 
+  oscal_result:
+    runs-on: ubuntu-20.04
+    steps:
       - name: Get the output information from Assessment Execution
         run: |
           echo "The time was ${{ steps.oscal-assessment-plan.outputs.time }}"
