@@ -6,5 +6,6 @@
 # This script could exist in parts to test certain controls, or it could reside in a 
 # completed different repository and referenced as a submodule.
 
-print("CONTROL AC-8 TESTED: PASS [This message originates from script/app_assessment.py]")
-assert True == True
+def test_ac8():
+    print("CONTROL AC-8 TESTED: PASS [This message originates from script/app_assessment.py]")
+    assert True == True
