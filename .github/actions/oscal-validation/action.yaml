@@ -1,0 +1,13 @@
+# action.yml
+name: 'Execute OSCAL Validation'
+description: 'Executes validation based on json files'
+outputs:
+  model:
+    description: 'The validated models.'
+  location:
+    description: 'The file location of the model.'
+  time:
+    description: 'The time of validation.'
+runs:
+  using: 'docker'
+  image: 'Dockerfile'

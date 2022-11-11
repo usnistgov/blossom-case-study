@@ -33,6 +33,10 @@ jobs:
         run: |
           python app.py
 
+      - name: Execute OSCAL Validation
+        id: oscal-validation
+        uses: ./.github/actions/oscal-validation
+
       - name: Execute OSCAL Assessment Plan
         id: oscal-assessment-plan
         uses: ./.github/actions/oscal-assessment-plan-execute
