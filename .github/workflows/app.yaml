@@ -7,11 +7,11 @@ on:
       - feature-default-github-actions
 
 jobs:
-  dashboard_test:
+  application_test:
     runs-on: ubuntu-20.04
-    defaults:
-      run:
-        working-directory: assessment
+    # defaults:
+    #   run:
+    #     working-directory: assessment
     steps:
       - name: Check out repository code.
         uses: actions/checkout@v3
@@ -32,7 +32,8 @@ jobs:
 
       - name: Execute script.
         run: |
-          python app.py
+          cd app
+          docker-compose -f docker-compose.yml --profile=testing up
 
       - name: Execute OSCAL Validation
         id: oscal-validation
