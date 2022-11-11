@@ -33,10 +33,6 @@ jobs:
         id: oscal-validation
         uses: ./.github/actions/oscal-validation
 
-      - name: Run tests.
-        run: |
-          pytest
-
   oscal_assessment:
     runs-on: ubuntu-20.04
     steps:
@@ -64,7 +60,7 @@ jobs:
     steps:
       - name: Check out repository code.
         uses: actions/checkout@v3
-        
+
       - name: Get the output information from Assessment Execution
         run: |
           echo "The time was ${{ steps.oscal-assessment-plan.outputs.time }}"
