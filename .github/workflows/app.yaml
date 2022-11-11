@@ -34,6 +34,7 @@ jobs:
         uses: ./.github/actions/oscal-validation
 
   oscal_assessment:
+    needs: oscal_validate
     runs-on: ubuntu-20.04
     steps:
       - name: Check out repository code.
@@ -56,6 +57,7 @@ jobs:
           docker-compose -f docker-compose.yml --profile=testing down
 
   oscal_result:
+    needs: oscal_assessment
     runs-on: ubuntu-20.04
     steps:
       - name: Check out repository code.
