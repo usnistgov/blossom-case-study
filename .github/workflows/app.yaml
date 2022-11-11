@@ -26,6 +26,9 @@ jobs:
   oscal_validate:
     runs-on: ubuntu-20.04
     steps:
+      - name: Check out repository code.
+        uses: actions/checkout@v3
+
       - name: Execute OSCAL Validation
         id: oscal-validation
         uses: ./.github/actions/oscal-validation
@@ -37,6 +40,9 @@ jobs:
   oscal_assessment:
     runs-on: ubuntu-20.04
     steps:
+      - name: Check out repository code.
+        uses: actions/checkout@v3
+
       - name: Start application.
         run: |
           cd app
@@ -56,6 +62,9 @@ jobs:
   oscal_result:
     runs-on: ubuntu-20.04
     steps:
+      - name: Check out repository code.
+        uses: actions/checkout@v3
+        
       - name: Get the output information from Assessment Execution
         run: |
           echo "The time was ${{ steps.oscal-assessment-plan.outputs.time }}"
