@@ -1,0 +1,39 @@
+name: Main Workflow
+on:
+  push:
+    branches:
+      - main
+      - develop
+  pull_request: {}
+jobs:
+  application_test:
+    runs-on: ubuntu-22.04
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-python@v4
+        with:
+          python-version: '3.10'
+      - name: Install Python dependencies
+        run: pip install -r app/requirements.txt
+      # TODO: start the test container
+      # TODO: actually test the app
+      # TODO: stop the test container
+  oscal_validate:
+    runs-on: ubuntu-22.04
+    steps:
+      - uses: actions/checkout@v3
+      - name: Execute OSCAL Validation
+        id: oscal-validation
+        uses: ./.github/actions/oscal-validation
+      # TODO: create comment if profile and resolved profile are de-synced
+  oscal_assess:
+    runs-on: ubuntu-22.04
+    needs:
+      - oscal_validate
+      - application_test
+    steps:
+      - uses: actions/checkout@v3
+      # TODO: start the test container
+      # TODO: execute assess action
+      # TODO: create comment/artifact
+      # TODO: stop the test container
