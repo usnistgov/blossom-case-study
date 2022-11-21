@@ -22,7 +22,7 @@ jobs:
         run: pip install -r requirements.txt; npm ci
         working-directory: ./app
       - name: Start application container
-        run: docker-compose -f docker-compose.yml --profile=testing up -d
+        run: docker-compose up -d
         working-directory: ./app
       - name: Run Cypress tests
         run: npm run test
@@ -31,7 +31,7 @@ jobs:
         run: pytest
         working-directory: ./app
       - name: Shut down application container
-        run: docker-compose -f docker-compose.yml --profile=testing down
+        run: docker-compose down
         working-directory: ./app
 
   # Validate the current state of the OSCAL content before moving on to the assess stage
@@ -66,11 +66,11 @@ jobs:
         run: pip install -r requirements.txt; npm ci
         working-directory: ./app
       - name: Start application container
-        run: docker-compose -f docker-compose.yml --profile=testing up -d
+        run: docker-compose up -d
         working-directory: ./app
       # TODO: execute assess action
       # TODO: create comment/artifact
       - name: Shut down application container
-        run: docker-compose -f docker-compose.yml --profile=testing down
+        run: docker-compose down
         working-directory: ./app
 
