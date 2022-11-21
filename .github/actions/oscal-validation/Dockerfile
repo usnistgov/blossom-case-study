@@ -4,7 +4,7 @@ ARG MAVEN_VERSION=sha256:bed43e35f3e5f013670d4d7d247612de5ac82355b0c58c244005c53
 
 FROM maven@${MAVEN_VERSION} as builder
 
-ARG OSCALCLI_ARCHIVE_URL=https://github.com/usnistgov/oscal-cli/releases/download/v0.1.1/cli-core-0.1.1-oscal-cli.zip
+ARG OSCALCLI_ARCHIVE_URL=https://github.com/usnistgov/oscal-cli/releases/download/v0.3.1/cli-core-0.3.1-oscal-cli.zip
 
 RUN apt-get update && \
     apt-get install unzip && \
