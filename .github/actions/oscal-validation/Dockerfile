@@ -15,7 +15,7 @@ RUN apt-get update && \
 
 FROM maven@${MAVEN_VERSION} 
 
-LABEL org.opencontainers.image.source=https://github.com/usnistgov/blossom
+LABEL org.opencontainers.image.source=https://github.com/usnistgov/blossom-case-study
 
 COPY docker-entrypoint.sh /docker-entrypoint.sh
 COPY --from=builder /tmp/oscal-cli /opt/oscal-cli
