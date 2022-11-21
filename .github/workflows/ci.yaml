@@ -56,6 +56,15 @@ jobs:
       - application_test
     steps:
       - uses: actions/checkout@v3
+      - uses: actions/setup-python@v4
+        with:
+          python-version: '3.10'
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 18
+      - name: Install app dependencies
+        run: pip install -r requirements.txt; npm ci
+        working-directory: ./app
       - name: Start application container
         run: docker-compose -f docker-compose.yml --profile=testing up -d
         working-directory: ./app
