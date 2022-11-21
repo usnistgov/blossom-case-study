@@ -6,6 +6,8 @@ on:
       - develop
   pull_request: {}
 jobs:
+
+  # Representative of tests you would see in a real project
   application_test:
     runs-on: ubuntu-22.04
     steps:
@@ -13,11 +15,26 @@ jobs:
       - uses: actions/setup-python@v4
         with:
           python-version: '3.10'
-      - name: Install Python dependencies
-        run: pip install -r app/requirements.txt
-      # TODO: start the test container
-      # TODO: actually test the app
-      # TODO: stop the test container
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 18
+      - name: Install app dependencies
+        run: pip install -r requirements.txt; npm ci
+        working-directory: ./app
+      - name: Start application container
+        run: docker-compose -f docker-compose.yml --profile=testing up -d
+        working-directory: ./app
+      - name: Run Cypress tests
+        run: npm run test
+        working-directory: ./app
+      - name: Run Python tests
+        run: pytest
+        working-directory: ./app
+      - name: Shut down application container
+        run: docker-compose -f docker-compose.yml --profile=testing down
+        working-directory: ./app
+
+  # Validate the current state of the OSCAL content before moving on to the assess stage
   oscal_validate:
     runs-on: ubuntu-22.04
     steps:
@@ -25,7 +42,13 @@ jobs:
       - name: Execute OSCAL Validation
         id: oscal-validation
         uses: ./.github/actions/oscal-validation
-      # TODO: create comment if profile and resolved profile are de-synced
+      - name: Warn if profile is newer then resolved catalog
+        run: |
+          if [[ .oscal/profile.yaml -nt .oscal/resolved-catalog.yaml ]]; then
+            echo "::warning file=.oscal/resolved-catalog.yaml,line=1::resolved-catalog.yaml is older then profile.yaml and must be regenerated using 'oscal-cli profile resolve profile.yaml resolved-catalog.yaml'"
+          fi
+
+  # If tests and OSCAL validation passes, assess the current state of the application
   oscal_assess:
     runs-on: ubuntu-22.04
     needs:
@@ -33,7 +56,12 @@ jobs:
       - application_test
     steps:
       - uses: actions/checkout@v3
-      # TODO: start the test container
+      - name: Start application container
+        run: docker-compose -f docker-compose.yml --profile=testing up -d
+        working-directory: ./app
       # TODO: execute assess action
       # TODO: create comment/artifact
-      # TODO: stop the test container
+      - name: Shut down application container
+        run: docker-compose -f docker-compose.yml --profile=testing down
+        working-directory: ./app
+
