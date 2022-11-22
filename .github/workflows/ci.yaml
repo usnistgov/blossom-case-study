@@ -55,14 +55,14 @@ jobs:
         id: validate-system-security-plan
         uses: ./.github/actions/oscal-validation
         with:
-          model_type: system-security-plan
+          model_type: ssp
           file_path: .oscal/ssp.yaml
       # TODO: Uncomment once AP has been authored
       # - name: Validate the assessment plan
       #   id: validate-assessment-plan
       #   uses: ./.github/actions/oscal-validation
       #   with:
-      #     model_type: assessment-plan
+      #     model_type: ap
       #     file_path: .oscal/assessment-plan.yaml
       - name: Check if profile is newer then resolved catalog
         run: |
