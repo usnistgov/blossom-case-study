@@ -13,10 +13,10 @@ system-security-plan:
     parties:
       - uuid: ae282151-9a3f-4009-a819-1f1b87f8ae66
         type: person
-
+  
   import-profile:
     href: ./profile.yaml
-
+  
   system-characteristics:
     system-ids:
       - id: saas_system_iaas_customer
@@ -47,7 +47,7 @@ system-security-plan:
       state: operational
     authorization-boundary:
       description: This system is for demonstration purposes only.
-
+  
   system-implementation:
     users:
       - uuid: b1720f31-b2d4-41ce-911f-f9c06c392019
@@ -90,3 +90,35 @@ system-security-plan:
                 using this system indicates your understanding of this warning.
         statements:
           - statement-id: ac-8_smt.a
+            uuid: 6f668993-2f85-4e8c-95ff-0f1fe4657f16
+            by-components:
+              - component-uuid: a413cc1e-92dc-494b-b2ed-a8d9610597da
+                uuid: a59a5d37-1154-4997-b4d1-c06e4ab53707
+                description: >-
+                  The system use notification will be implemented in the following locations before allowing access:
+                    * Server log in
+                    * Application log in
+                props:
+                  - name: responsibility
+                    value: provider
+          - statement-id: ac-8_smt.b
+            uuid: baac97cc-9340-4187-995d-b17a2fb9748d
+            by-components:
+              - component-uuid: a413cc1e-92dc-494b-b2ed-a8d9610597da
+                uuid: f4bca8ff-868a-4fb2-ab65-0133bad6d8d8
+                description: >-
+                  The system use notification will remain visible until the user completes the actions required to attempt to log into the system.
+                props:
+                  - name: responsibility
+                    value: provider
+          - statement-id: ac-8_smt.c
+            uuid: 69bfa2da-9b9c-435f-b1fe-ea8f27c2d185
+            by-components:
+              - component-uuid: a413cc1e-92dc-494b-b2ed-a8d9610597da
+                uuid: d257cd52-aef9-4638-861a-89f8c9421a96
+                description: >-
+                  This system is not authorized to be publicly accessible.  If any response from the system can be displayed on screen, 
+                  such as a terminal window or web browser, the system use notification will be emitted.
+                props:
+                  - name: responsibility
+                    value: provider       
