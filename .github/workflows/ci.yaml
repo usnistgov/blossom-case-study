@@ -68,7 +68,6 @@ jobs:
       #     file_path: .oscal/assessment-plan.yaml
       - name: Check if profile is newer then resolved catalog
         run: |
-          cat <<'EOF' | bash -x
           function timestamp {
             git log -1 --pretty="format:%cd" --date=format:%Y%m%d%H%m%S $1
           }
@@ -76,7 +75,6 @@ jobs:
             echo "Profile Desync!"
             echo "profile_desync=true" >> $GITHUB_ENV
           fi
-          EOF
       - name: Warn the user that the profile is newer then the resolved catalog
         if: ${{ env.profile_desync == 'true' }}
         uses: actions/github-script@v6
@@ -86,7 +84,6 @@ jobs:
             const body = "`resolved-catalog.yaml` is older then `profile.yaml` and must be regenerated using `oscal-cli profile resolve profile.yaml resolved-catalog.yaml`";
             github.rest.repos.createCommitComment({
               body,
-              path: '.oscal/resolved-catalog.yaml',
               owner: context.repo.owner,
               repo: context.repo.repo,
               commit_sha: context.sha
