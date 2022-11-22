@@ -39,14 +39,59 @@ jobs:
     runs-on: ubuntu-22.04
     steps:
       - uses: actions/checkout@v3
-      - name: Execute OSCAL Validation
-        id: oscal-validation
+        with:
+          # must retrieve full history to get timestamp data
+          fetch-depth: 0
+      - name: Validate the profile
+        id: validate-profile
         uses: ./.github/actions/oscal-validation
-      - name: Warn if profile is newer then resolved catalog
+        with:
+          model_type: profile
+          file_path: .oscal/profile.yaml
+      - name: Validate the resolved catalog
+        id: validate-resolved-catalog
+        uses: ./.github/actions/oscal-validation
+        with:
+          model_type: catalog
+          file_path: .oscal/resolved-catalog.yaml
+      - name: Validate the system-security-plan
+        id: validate-system-security-plan
+        uses: ./.github/actions/oscal-validation
+        with:
+          model_type: ssp
+          file_path: .oscal/ssp.yaml
+      # TODO: Uncomment once AP has been authored
+      # - name: Validate the assessment plan
+      #   id: validate-assessment-plan
+      #   uses: ./.github/actions/oscal-validation
+      #   with:
+      #     model_type: ap
+      #     file_path: .oscal/assessment-plan.yaml
+      - name: Check if profile is newer then resolved catalog
         run: |
-          if [[ .oscal/profile.yaml -nt .oscal/resolved-catalog.yaml ]]; then
-            echo "::warning file=.oscal/resolved-catalog.yaml,line=1::resolved-catalog.yaml is older then profile.yaml and must be regenerated using 'oscal-cli profile resolve profile.yaml resolved-catalog.yaml'"
+          function timestamp {
+            git log -1 --pretty="format:%cd" --date=format:%Y%m%d%H%m%S $1
+          }
+          if [[ $(timestamp ./.oscal/profile.yaml) -gt $(timestamp ./.oscal/resolved-catalog.yaml) ]]; then
+            echo "Profile Desync!"
+            echo "profile_desync=true" >> $GITHUB_ENV
           fi
+      - name: Warn the user that the profile is newer then the resolved catalog
+        id: comment-step
+        if: ${{ env.profile_desync == 'true' }}
+        uses: actions/github-script@v6
+        with:
+          github-token: ${{secrets.GITHUB_TOKEN}}
+          result-encoding: json
+          script: |
+            const body = "`resolved-catalog.yaml` is older then `profile.yaml` and must be regenerated using `oscal-cli profile resolve profile.yaml resolved-catalog.yaml`";
+            return await github.rest.repos.createCommitComment({
+              body,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              commit_sha: '${{ github.event.pull_request.head.sha }}'
+            });
+            // TODO: Also create a PR comment if action was triggered by a PR
 
   # If tests and OSCAL validation passes, assess the current state of the application
   oscal_assess:
@@ -73,4 +118,3 @@ jobs:
       - name: Shut down application container
         run: docker-compose down
         working-directory: ./app
-

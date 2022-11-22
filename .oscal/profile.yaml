@@ -3,7 +3,7 @@ profile:
   uuid: 51a969c1-af30-4eb7-99a2-0d3ddbd8cacb
   metadata:
     title: Bloss@m Minimal Baseline for Demonstration
-    last-modified: 2022-11-17T00:00:00.000000-04:00
+    last-modified: 2022-11-22T00:00:00.000000-04:00
     version: 0.0.1-alpha
     oscal-version: 1.0.4
     roles:
