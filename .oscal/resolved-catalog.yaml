@@ -3,7 +3,7 @@ catalog:
   uuid: f7b6594d-361c-4ba8-bfe6-4266861b3a87
   metadata:
     title: Bloss@m Minimal Baseline for Demonstration
-    last-modified: 2022-11-18T15:46:16.777677Z
+    last-modified: 2022-11-22T15:46:16.777677Z
     version: 0.0.1-alpha
     oscal-version: 1.0.4
     props:
