@@ -1,6 +1,5 @@
 version: '3.9'
 services:
-
   # docker-compose -f docker-compose.yml up
   important:
     image: python:3.10-alpine
@@ -10,8 +9,7 @@ services:
     volumes:
       - ./:/code
     entrypoint: ["/bin/sh","run.sh"]
-
-
+  # If testing Cypress in docker, use this:
   # docker-compose -f docker-compose.yml --profile=testing up
   testing-framework:
     image: cypress/included:10.11.0
@@ -23,4 +21,3 @@ services:
       - important
     volumes:
       - ./:/e2e
-  
