@@ -39,6 +39,8 @@ jobs:
     runs-on: ubuntu-22.04
     steps:
       - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
       # - name: Validate the profile
       #   id: validate-profile
       #   uses: ./.github/actions/oscal-validation
