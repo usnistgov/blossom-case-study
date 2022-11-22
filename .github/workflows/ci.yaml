@@ -8,55 +8,55 @@ on:
 jobs:
 
   # Representative of tests you would see in a real project
-  application_test:
-    runs-on: ubuntu-22.04
-    steps:
-      - uses: actions/checkout@v3
-      - uses: actions/setup-python@v4
-        with:
-          python-version: '3.10'
-      - uses: actions/setup-node@v3
-        with:
-          node-version: 18
-      - name: Install app dependencies
-        run: pip install -r requirements.txt; npm ci
-        working-directory: ./app
-      - name: Start application container
-        run: docker-compose up -d
-        working-directory: ./app
-      - name: Run Cypress tests
-        run: npm run test
-        working-directory: ./app
-      - name: Run Python tests
-        run: pytest
-        working-directory: ./app
-      - name: Shut down application container
-        run: docker-compose down
-        working-directory: ./app
+  # application_test:
+  #   runs-on: ubuntu-22.04
+  #   steps:
+  #     - uses: actions/checkout@v3
+  #     - uses: actions/setup-python@v4
+  #       with:
+  #         python-version: '3.10'
+  #     - uses: actions/setup-node@v3
+  #       with:
+  #         node-version: 18
+  #     - name: Install app dependencies
+  #       run: pip install -r requirements.txt; npm ci
+  #       working-directory: ./app
+  #     - name: Start application container
+  #       run: docker-compose up -d
+  #       working-directory: ./app
+  #     - name: Run Cypress tests
+  #       run: npm run test
+  #       working-directory: ./app
+  #     - name: Run Python tests
+  #       run: pytest
+  #       working-directory: ./app
+  #     - name: Shut down application container
+  #       run: docker-compose down
+  #       working-directory: ./app
 
   # Validate the current state of the OSCAL content before moving on to the assess stage
   oscal_validate:
     runs-on: ubuntu-22.04
     steps:
       - uses: actions/checkout@v3
-      - name: Validate the profile
-        id: validate-profile
-        uses: ./.github/actions/oscal-validation
-        with:
-          model_type: profile
-          file_path: .oscal/profile.yaml
-      - name: Validate the resolved catalog
-        id: validate-resolved-catalog
-        uses: ./.github/actions/oscal-validation
-        with:
-          model_type: catalog
-          file_path: .oscal/resolved-catalog.yaml
-      - name: Validate the system-security-plan
-        id: validate-system-security-plan
-        uses: ./.github/actions/oscal-validation
-        with:
-          model_type: ssp
-          file_path: .oscal/ssp.yaml
+      # - name: Validate the profile
+      #   id: validate-profile
+      #   uses: ./.github/actions/oscal-validation
+      #   with:
+      #     model_type: profile
+      #     file_path: .oscal/profile.yaml
+      # - name: Validate the resolved catalog
+      #   id: validate-resolved-catalog
+      #   uses: ./.github/actions/oscal-validation
+      #   with:
+      #     model_type: catalog
+      #     file_path: .oscal/resolved-catalog.yaml
+      # - name: Validate the system-security-plan
+      #   id: validate-system-security-plan
+      #   uses: ./.github/actions/oscal-validation
+      #   with:
+      #     model_type: ssp
+      #     file_path: .oscal/ssp.yaml
       # TODO: Uncomment once AP has been authored
       # - name: Validate the assessment plan
       #   id: validate-assessment-plan
@@ -65,6 +65,7 @@ jobs:
       #     model_type: ap
       #     file_path: .oscal/assessment-plan.yaml
       - name: Check if profile is newer then resolved catalog
+        shell: bash -x
         run: |
           function timestamp {
             git log -1 --pretty="format:%cd" --date=format:%Y%m%d%H%m%S $1
@@ -88,28 +89,28 @@ jobs:
               commit_sha: context.sha
             });
 
-  # If tests and OSCAL validation passes, assess the current state of the application
-  oscal_assess:
-    runs-on: ubuntu-22.04
-    needs:
-      - oscal_validate
-      - application_test
-    steps:
-      - uses: actions/checkout@v3
-      - uses: actions/setup-python@v4
-        with:
-          python-version: '3.10'
-      - uses: actions/setup-node@v3
-        with:
-          node-version: 18
-      - name: Install app dependencies
-        run: pip install -r requirements.txt; npm ci
-        working-directory: ./app
-      - name: Start application container
-        run: docker-compose up -d
-        working-directory: ./app
-      # TODO: execute assess action
-      # TODO: create comment/artifact
-      - name: Shut down application container
-        run: docker-compose down
-        working-directory: ./app
+  # # If tests and OSCAL validation passes, assess the current state of the application
+  # oscal_assess:
+  #   runs-on: ubuntu-22.04
+  #   needs:
+  #     - oscal_validate
+  #     - application_test
+  #   steps:
+  #     - uses: actions/checkout@v3
+  #     - uses: actions/setup-python@v4
+  #       with:
+  #         python-version: '3.10'
+  #     - uses: actions/setup-node@v3
+  #       with:
+  #         node-version: 18
+  #     - name: Install app dependencies
+  #       run: pip install -r requirements.txt; npm ci
+  #       working-directory: ./app
+  #     - name: Start application container
+  #       run: docker-compose up -d
+  #       working-directory: ./app
+  #     # TODO: execute assess action
+  #     # TODO: create comment/artifact
+  #     - name: Shut down application container
+  #       run: docker-compose down
+  #       working-directory: ./app
