@@ -69,7 +69,7 @@ jobs:
           function timestamp {
             git log -1 --pretty="format:%cd" --date=format:%Y%m%d%H%m%S $1
           }
-          if [[ $(timestamp ./.oscal/profile) -gt $(timestamp ./.oscal/resolved-catalog.yaml) ]]; then
+          if [[ $(timestamp ./.oscal/profile.yaml) -gt $(timestamp ./.oscal/resolved-catalog.yaml) ]]; then
             echo "Profile Desync!"
             echo "profile_desync=true" >> $GITHUB_ENV
           fi
