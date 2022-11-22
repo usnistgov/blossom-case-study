@@ -67,6 +67,7 @@ jobs:
       - name: Check if profile is newer then resolved catalog
         run: |
           if [[ .oscal/profile.yaml -nt .oscal/resolved-catalog.yaml ]]; then
+            echo "Profile Desync!"
             echo "profile_desync=true" >> $GITHUB_ENV
           fi
       - name: Warn the user that the profile is newer then the resolved catalog
