@@ -82,7 +82,7 @@ jobs:
         uses: actions/github-script@v6
         with:
           github-token: ${{secrets.GITHUB_TOKEN}}
-          result-encoding: string
+          result-encoding: json
           script: |
             const body = "`resolved-catalog.yaml` is older then `profile.yaml` and must be regenerated using `oscal-cli profile resolve profile.yaml resolved-catalog.yaml`";
             return await github.rest.repos.createCommitComment({
