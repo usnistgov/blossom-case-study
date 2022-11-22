@@ -77,10 +77,12 @@ jobs:
             echo "profile_desync=true" >> $GITHUB_ENV
           fi
       - name: Warn the user that the profile is newer then the resolved catalog
+        id: comment-step
         if: ${{ env.profile_desync == 'true' }}
         uses: actions/github-script@v6
         with:
           github-token: ${{secrets.GITHUB_TOKEN}}
+          result-encoding: string
           script: |
             const body = "`resolved-catalog.yaml` is older then `profile.yaml` and must be regenerated using `oscal-cli profile resolve profile.yaml resolved-catalog.yaml`";
             return await github.rest.repos.createCommitComment({
@@ -89,6 +91,8 @@ jobs:
               repo: context.repo.repo,
               commit_sha: context.sha
             });
+      - name: Get result
+        run: echo "${{steps.comment-step.outputs.result}}"
 
   # # If tests and OSCAL validation passes, assess the current state of the application
   # oscal_assess:
