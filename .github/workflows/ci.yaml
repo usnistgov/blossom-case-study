@@ -39,14 +39,50 @@ jobs:
     runs-on: ubuntu-22.04
     steps:
       - uses: actions/checkout@v3
-      - name: Execute OSCAL Validation
-        id: oscal-validation
+      - name: Validate the profile
+        id: validate-profile
         uses: ./.github/actions/oscal-validation
-      - name: Warn if profile is newer then resolved catalog
+        with:
+          model_type: profile
+          file_path: .oscal/profile.yaml
+      - name: Validate the resolved catalog
+        id: validate-resolved-catalog
+        uses: ./.github/actions/oscal-validation
+        with:
+          model_type: catalog
+          file_path: .oscal/resolved-catalog.yaml
+      - name: Validate the system-security-plan
+        id: validate-system-security-plan
+        uses: ./.github/actions/oscal-validation
+        with:
+          model_type: system-security-plan
+          file_path: .oscal/ssp.yaml
+      # TODO: Uncomment once AP has been authored
+      # - name: Validate the assessment plan
+      #   id: validate-assessment-plan
+      #   uses: ./.github/actions/oscal-validation
+      #   with:
+      #     model_type: assessment-plan
+      #     file_path: .oscal/assessment-plan.yaml
+      - name: Check if profile is newer then resolved catalog
         run: |
           if [[ .oscal/profile.yaml -nt .oscal/resolved-catalog.yaml ]]; then
-            echo "::warning file=.oscal/resolved-catalog.yaml,line=1::resolved-catalog.yaml is older then profile.yaml and must be regenerated using 'oscal-cli profile resolve profile.yaml resolved-catalog.yaml'"
+            echo "profile_desync=true" >> $GITHUB_ENV
           fi
+      - name: Warn the user that the profile is newer then the resolved catalog
+        if: ${{ env.profile_desync == 'true' }}
+        uses: actions/github-script@v6
+        with:
+          github-token: ${{secrets.GITHUB_TOKEN}}
+          script: |
+            const body = "`resolved-catalog.yaml` is older then `profile.yaml` and must be regenerated using `oscal-cli profile resolve profile.yaml resolved-catalog.yaml`";
+            github.rest.repos.createCommitComment({
+              body,
+              path: '.oscal/resolved-catalog.yaml',
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              commit_sha: context.sha
+            });
 
   # If tests and OSCAL validation passes, assess the current state of the application
   oscal_assess:
@@ -73,4 +109,3 @@ jobs:
       - name: Shut down application container
         run: docker-compose down
         working-directory: ./app
-

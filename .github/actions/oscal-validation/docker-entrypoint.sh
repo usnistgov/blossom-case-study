@@ -1,3 +1,5 @@
-#!/bin/sh -l
+#!/usr/bin/env bash
 
-find .oscal -type f -name '*.yaml' -exec /opt/oscal-cli/bin/oscal-cli assessment-plan validate {} \;
+set -Eeuo pipefail
+
+/opt/oscal-cli/bin/oscal-cli $INPUT_MODEL_TYPE validate $INPUT_FILE_PATH

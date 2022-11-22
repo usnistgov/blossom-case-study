@@ -1,12 +1,12 @@
 name: Execute OSCAL Validation
 description: Executes validation based on json files
-outputs:
-  model:
-    description: The validated models.
-  location:
-    description: The file location of the model.
-  time:
-    description: The time of validation.
+inputs:
+  model_type:
+    description: Specify the model type to validate
+    required: true
+  file_path:
+    description: Specify the path to the file to be validated
+    required: true
 runs:
   using: docker
   image: Dockerfile
