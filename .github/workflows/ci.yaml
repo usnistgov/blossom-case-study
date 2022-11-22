@@ -65,8 +65,8 @@ jobs:
       #     model_type: ap
       #     file_path: .oscal/assessment-plan.yaml
       - name: Check if profile is newer then resolved catalog
-        shell: bash -x
         run: |
+          cat <<'EOF' | bash -x
           function timestamp {
             git log -1 --pretty="format:%cd" --date=format:%Y%m%d%H%m%S $1
           }
@@ -74,6 +74,7 @@ jobs:
             echo "Profile Desync!"
             echo "profile_desync=true" >> $GITHUB_ENV
           fi
+          EOF
       - name: Warn the user that the profile is newer then the resolved catalog
         if: ${{ env.profile_desync == 'true' }}
         uses: actions/github-script@v6
