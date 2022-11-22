@@ -89,7 +89,7 @@ jobs:
               body,
               owner: context.repo.owner,
               repo: context.repo.repo,
-              commit_sha: ${{ github.event.pull_request.head.sha }}
+              commit_sha: '${{ github.event.pull_request.head.sha }}'
             });
       - name: Get result
         run: echo "${{steps.comment-step.outputs.result}}"
