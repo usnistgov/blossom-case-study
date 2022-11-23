@@ -12,16 +12,16 @@ assessment-plan:
   
   reviewed-controls:
     control-selections:
-      include_controls:
-        - control-id: ac-8
+      - include_controls:
+          - control-id: ac-8
     control-objective-selections:
-      include-objectives:
-        - objective-id: ac-8.a_obj
-        - objective-id: ac-8.a_obj.1
-        - objective-id: ac-8.a_obj.2
-        - objective-id: ac-8.a_obj.3
-        - objective-id: ac-8.a_obj.4
-        - objective-id: ac-8_obj.b
+      - include-objectives:
+          - objective-id: ac-8.a_obj
+          - objective-id: ac-8.a_obj.1
+          - objective-id: ac-8.a_obj.2
+          - objective-id: ac-8.a_obj.3
+          - objective-id: ac-8.a_obj.4
+          - objective-id: ac-8_obj.b
     remarks: Control objective selections are declared separately of the include-controls directive, must be explicit here.
 
   tasks:
@@ -39,13 +39,13 @@ assessment-plan:
         title: AC-8 In-App
         description: Test the satisfaction of AC-8 by mocking the fastAPI server
         props:
-          - name: Assessment Result Expected Check Method
+          - name: ar-check-method
             ns: https://www.nist.gov/itl/csd/ssag/blossom
             class: ar-check-method
             value: system-shell-return-code
-          - name: Assessment Result Expected Check Result
+          - name: ar-check-result
             ns: https://www.nist.gov/itl/csd/ssag/blossom
-            class: ar-expected-check-result
+            class: ar-check-result
             value: "0"
         rlinks:
           - href: assessments/ac_8_inapp.py
