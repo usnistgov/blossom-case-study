@@ -12,7 +12,7 @@ assessment-plan:
   
   reviewed-controls:
     control-selections:
-      - include_controls:
+      - include-controls:
           - control-id: ac-8
     control-objective-selections:
       - include-objectives:
