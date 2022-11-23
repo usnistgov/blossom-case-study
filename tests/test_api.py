@@ -1,6 +1,6 @@
 from fastapi.testclient import TestClient
 
-from .api import enroller
+from app.api import enroller
 
 client = TestClient(enroller)
 

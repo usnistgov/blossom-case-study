@@ -2,5 +2,7 @@ chevron>=0.14
 fastapi>=0.68
 Jinja2>=3.1.2
 uvicorn>=0.14
-pytest==7.2.0
 httpx==0.23.1
+# test/assessment execution
+pytest==7.2.0
+beautifulsoup4==4.11.1

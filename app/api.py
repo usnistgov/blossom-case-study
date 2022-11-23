@@ -4,7 +4,10 @@ from fastapi import FastAPI, Request
 from fastapi.templating import Jinja2Templates
 from pathlib import Path
 
-description = Path("README.md").read_text(encoding='utf-8')
+# the "app" directory
+base_path = Path(__file__).parent
+
+description = base_path.joinpath('README.md').read_text(encoding='utf-8')
 enroller = FastAPI(
     title="Government Agency",
     description=description,
@@ -12,8 +15,9 @@ enroller = FastAPI(
 )
 templates = None
 
-if os.path.exists("views"):
-    views = Jinja2Templates(directory="views")
+views_path = base_path.joinpath('views')
+if os.path.exists(views_path):
+    views = Jinja2Templates(directory=views_path)
 else:
     raise Exception("Could not find Views directory. Expecting 'views/'.")
 
