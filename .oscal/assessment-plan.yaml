@@ -29,6 +29,13 @@ assessment-plan:
       title: Validate System Use Notification Presence from Python Script
       description: Check system use notification presence.
       type: action
+      props:
+        - name: ar-check-method
+          ns: https://www.nist.gov/itl/csd/ssag/blossom
+          value: system-shell-return-code
+        - name: ar-check-result
+          ns: https://www.nist.gov/itl/csd/ssag/blossom
+          value: "0"
       links:
         - href: "#31291ea5-13d7-44c6-aac6-bc61d9975ec5"
           rel: command
