@@ -38,15 +38,6 @@ assessment-plan:
       - uuid: 31291ea5-13d7-44c6-aac6-bc61d9975ec5
         title: AC-8 In-App
         description: Test the satisfaction of AC-8 by mocking the fastAPI server
-        props:
-          - name: ar-check-method
-            ns: https://www.nist.gov/itl/csd/ssag/blossom
-            class: ar-check-method
-            value: system-shell-return-code
-          - name: ar-check-result
-            ns: https://www.nist.gov/itl/csd/ssag/blossom
-            class: ar-check-result
-            value: "0"
         rlinks:
           - href: assessments/ac_8_inapp.py
             media-type: text/plain
