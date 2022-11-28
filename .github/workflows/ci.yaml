@@ -20,19 +20,14 @@ jobs:
           node-version: 18
       - name: Install app dependencies
         run: pip install -r requirements.txt; npm ci
-        working-directory: ./app
       - name: Start application container
         run: docker-compose up -d
-        working-directory: ./app
       - name: Run Cypress tests
         run: npm run test
-        working-directory: ./app
       - name: Run Python tests
         run: pytest
-        working-directory: ./app
       - name: Shut down application container
         run: docker-compose down
-        working-directory: ./app
 
   # Validate the current state of the OSCAL content before moving on to the assess stage
   oscal_validate:
@@ -60,13 +55,12 @@ jobs:
         with:
           model_type: ssp
           file_path: .oscal/ssp.yaml
-      # TODO: Uncomment once AP has been authored
-      # - name: Validate the assessment plan
-      #   id: validate-assessment-plan
-      #   uses: ./.github/actions/oscal-validation
-      #   with:
-      #     model_type: ap
-      #     file_path: .oscal/assessment-plan.yaml
+      - name: Validate the assessment plan
+        id: validate-assessment-plan
+        uses: ./.github/actions/oscal-validation
+        with:
+          model_type: ap
+          file_path: .oscal/assessment-plan.yaml
       - name: Check if profile is newer then resolved catalog
         run: |
           function timestamp {
@@ -109,12 +103,9 @@ jobs:
           node-version: 18
       - name: Install app dependencies
         run: pip install -r requirements.txt; npm ci
-        working-directory: ./app
       - name: Start application container
         run: docker-compose up -d
-        working-directory: ./app
       # TODO: execute assess action
       # TODO: create comment/artifact
       - name: Shut down application container
         run: docker-compose down
-        working-directory: ./app
