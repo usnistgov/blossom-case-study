@@ -9,7 +9,19 @@ assessment-plan:
   
   import-ssp:
     href: ./ssp.yaml
-  
+
+  local-definitions:
+    activities:
+      - uuid: d85636e6-0d9d-4c94-a924-5a612a119040
+        title: Automated Tests of Application Configuration
+        description: A description of automated testing.
+        related-controls:
+          - description: >
+              This automated testing evaluates system notification banner implementations in different layers of the system.
+            control-selections:
+              - ac-8
+            control-objective-selections:
+              - include-all: {}
   reviewed-controls:
     control-selections:
       - include-controls:
@@ -29,6 +41,8 @@ assessment-plan:
       title: Validate System Use Notification Presence from Python Script
       description: Check system use notification presence.
       type: action
+      associated-activities:
+        - activity-uuid: d85636e6-0d9d-4c94-a924-5a612a119040
       props:
         - name: ar-check-method
           ns: https://www.nist.gov/itl/csd/ssag/blossom
