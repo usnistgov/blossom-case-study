@@ -1,0 +1,12 @@
+name: Execute OSCAL Assessment Workflow
+description: Executes assessment workflow with an OSCAL YAML Assessment Plan and generate an OSCAL YAML Assessment Result
+inputs:
+  assessment_plan_path:
+    description: Path to the OSCAL Assessment Plan YAML file exists
+    required: true
+  assessment_results_path:
+    description: Path to the OSCAL Assessment Results YAML file be generated
+    required: true
+runs:
+  using: docker
+  image: Dockerfile
