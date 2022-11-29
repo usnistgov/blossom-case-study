@@ -1,14 +1,5 @@
-#%%
-import yaml
 import jmespath
 from typing import Dict, NamedTuple, List
-
-# %%
-
-ssp = yaml.safe_load(open("../../../.oscal/ssp.yaml", "r"))
-ap = yaml.safe_load(open("../../../.oscal/assessment-plan.yaml", "r"))
-
-# %%
 
 SET_PARAMS_PATH = (
     '"system-security-plan"."control-implementation"."implemented-requirements"[*]'
@@ -27,10 +18,6 @@ def extract_ssp_params(input_ssp: dict) -> Dict[str, Dict[str, str]]:
             param['id']: '; '.join(param['values']) for param in impl_control['params']
         } for impl_control in raw
     }
-
-extract_ssp_params(ssp)
-
-# %%
 
 class ApTaskResource(NamedTuple):
     uuid: str
@@ -74,6 +61,8 @@ class ApTask(NamedTuple):
     resource: ApTaskResource
     params: Dict[str, str]
     associated_control: str
+    # name -> value
+    props: Dict[str, str]
 
 def extract_ap_task_link_uuid(input_ap_task: dict) -> str:
     # grab the resource link for the task
@@ -104,15 +93,19 @@ def extract_ap_tasks(input_ap: dict, input_ssp: dict) -> List[ApTask]:
         associated_control = extract_associated_control(input_ap)
         params = ssp_params.get(associated_control, {})
 
+        props = {
+            prop['name']: prop['value']
+            for prop in raw_task['props']
+        }
+
         tasks.append(ApTask(
             uuid=raw_task['uuid'],
             title=raw_task['title'],
             description=raw_task['description'],
             resource=resource,
             params=params,
-            associated_control=associated_control
+            associated_control=associated_control,
+            props=props
         ))
 
     return tasks
-
-extract_ap_tasks(ap, ssp)
