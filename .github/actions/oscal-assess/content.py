@@ -28,7 +28,9 @@ class ApTaskResource(NamedTuple):
 
 def extract_ap_resource(input_ap: dict, uuid: str) -> ApTaskResource:
     # TODO: probably sanitize this in a real world scenario?
-    raw_resource = jmespath.search(f'"assessment-plan"."back-matter".resources[?uuid==\'{uuid}\']', input_ap)
+    raw_resource = jmespath.search(f'''
+        "assessment-plan"."back-matter".resources[?uuid==\'{uuid}\']
+    ''', input_ap)
 
     if len(raw_resource) != 1:
         raise Exception(f'Resource with uuid "{uuid}" expected, but {len(raw_resource)} were found')
@@ -76,9 +78,8 @@ def extract_ap_task_link_uuid(input_ap_task: dict) -> str:
 
         return href[1:]
 
-def extract_associated_control(input_ap: dict) -> str:
-    # TODO: extract control id here
-    return ''
+def extract_associated_control(input_ap: dict, uuid: str) -> str:
+    return jmespath.search(f'"assessment-plan"."local-definitions"."activities"[?uuid==\'{uuid}\']."related-controls"[*]."control-selections"[0]', input_ap)[0][0]
 
 def extract_ap_tasks(input_ap: dict, input_ssp: dict) -> List[ApTask]:
     raw_tasks = jmespath.search('"assessment-plan".tasks[?type==\'action\']', input_ap)
@@ -90,7 +91,7 @@ def extract_ap_tasks(input_ap: dict, input_ssp: dict) -> List[ApTask]:
         link_uuid = extract_ap_task_link_uuid(raw_task)
         resource = extract_ap_resource(input_ap, link_uuid)
 
-        associated_control = extract_associated_control(input_ap)
+        associated_control = extract_associated_control(input_ap, raw_task['associated-activities'][0]['activity-uuid'])
         params = ssp_params.get(associated_control, {})
 
         props = {
