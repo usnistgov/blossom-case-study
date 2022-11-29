@@ -73,6 +73,23 @@ class ApTask(NamedTuple):
     description: str
     resource: ApTaskResource
     params: Dict[str, str]
+    associated_control: str
+
+def extract_ap_task_link_uuid(input_ap_task: dict) -> str:
+    # grab the resource link for the task
+        href = jmespath.search("links[?rel=='command'].href", input_ap_task)
+        if len(href) != 1:
+            raise Exception('Task (uuid={}) should only have one command link, got {}'
+                    .format(input_ap_task['uuid'], len(href)))
+        href = href[0]
+        if not href.startswith('#'):
+            raise Exception(f'Task link "{href}" is not a valid uuid link')
+
+        return href[1:]
+
+def extract_associated_control(input_ap: dict) -> str:
+    # TODO: extract control id here
+    return ''
 
 def extract_ap_tasks(input_ap: dict, input_ssp: dict) -> List[ApTask]:
     raw_tasks = jmespath.search('"assessment-plan".tasks[?type==\'action\']', input_ap)
@@ -81,24 +98,19 @@ def extract_ap_tasks(input_ap: dict, input_ssp: dict) -> List[ApTask]:
 
     tasks = []
     for raw_task in raw_tasks:
-        # grab the resource link for the task
-        href = jmespath.search("links[?rel=='command'].href", raw_task)
-        if len(href) != 1:
-            raise Exception('Task (uuid={}) should only have one command link, got {}'
-                    .format(raw_task['uuid'], len(href)))
-        href = href[0]
-        if not href.startswith('#'):
-            raise Exception(f'Task link "{href}" is not a valid uuid link')
-        href = href[1:]
+        link_uuid = extract_ap_task_link_uuid(raw_task)
+        resource = extract_ap_resource(input_ap, link_uuid)
 
-        resource = extract_ap_resource(input_ap, href)
+        associated_control = extract_associated_control(input_ap)
+        params = ssp_params.get(associated_control, {})
 
         tasks.append(ApTask(
             uuid=raw_task['uuid'],
             title=raw_task['title'],
             description=raw_task['description'],
             resource=resource,
-            params={} # ssp_params[''] # TODO: get associated control
+            params=params,
+            associated_control=associated_control
         ))
 
     return tasks
