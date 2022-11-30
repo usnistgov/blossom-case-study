@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 
-from datetime import datetime
+from datetime import datetime, timezone
 from jinja2 import Environment, FileSystemLoader, select_autoescape
 import logging
 from os import environ, path, PathLike
@@ -117,7 +117,7 @@ def create_ar(context: AssessmentWorkflowContext):
     """Generate an OSCAL Assessment Result YAML file based upon the result of automated assessment tests.
     """
     try:
-        current_timestamp = datetime.now().isoformat()
+        current_timestamp = datetime.now(timezone.utc).isoformat()
 
         with open(context.ar_path, 'w') as fh:
             template = context.ar_renderer.get_template(context.ar_template_file)
@@ -126,7 +126,7 @@ def create_ar(context: AssessmentWorkflowContext):
                 'ar_metadata_title': 'OSCAL Workflow Automated Assessment Results',
                 'ar_metadata_last_modified_timestamp': current_timestamp,
                 'ar_import_ap_href': f"./{context.ap_path.name}",
-                'ar_result_start_timestamp': current_timestamp
+                'ar_results_start_timestamp': current_timestamp
             })
             logger.debug(f"Writing rendered assessment result to {context.ar_path}")
             fh.write(ar)
