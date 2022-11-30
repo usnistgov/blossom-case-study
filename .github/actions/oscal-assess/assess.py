@@ -3,9 +3,11 @@
 import logging
 from os import environ, path, PathLike
 from pathlib import Path
+import subprocess
 from typing import NamedTuple, Union
 from yaml import safe_load
-from content import extract_import_ssp
+
+from content import ApTask, extract_ap_tasks, extract_import_ssp
 
 logging.basicConfig()
 logger = logging.getLogger('oscal_assess')
@@ -49,6 +51,41 @@ def load_yaml(path: Union[str, bytes, Path, PathLike]):
         logger.error('Cannot load AP YAML file')
         raise err
 
+def process_ap(context):
+    """Process the OSCAL Assessment Plan to retrieve tasks, execute them, and
+    return results to be inserted into OSCAL Assessment Results doc template.
+    """
+    # Extract automation tasks from the assessment plan.
+    tasks = extract_ap_tasks(context.ap, context.ssp)
+    tasks_count = len(tasks)
+    logger.debug(f"Processed {context.ap_path} and found {tasks_count} tasks to run")
+
+    for idx, t in enumerate(tasks):
+        try:
+            logger.debug(f"Running task {idx+1}/{tasks_count}")
+            run_task(t)
+        except Exception as err:
+            logger.exception(err)
+            logger.err(f"Running task {idx+1} failed, continuing to next task if any")
+            continue
+
+def run_task(task: ApTask):
+    try:
+        logger.debug(f"Trying to run task '{task.title}' with uuid {task.uuid}")
+        ar_check_method = task.props.get('ar-check-method', '')
+        ar_check_result = task.props.get('ar-check-method')
+
+        if ar_check_method != 'system-shell-return-code':
+            logger.warning(f"Task ar-check-method is unsupported '{ar_check_method}', not 'system-shell-return-code'")
+
+        task_res_path = Path(task.resource.file)
+        return_code = subprocess.call(task_res_path)
+        return return_code == ar_check_result
+
+    except Exception as err:
+        logger.error(f"Running task with uuid {task.uuid} failed")
+        raise err
+
 def generate_assessment_result():
     """Generate an OSCAL Assessment Result YAML file based upon the result of automated assessment tests.
     """
@@ -58,11 +95,12 @@ def handler():
     """Main entrypoint for assessment plan processing and assessment result generation.
     """
     try:
+        context = create_context()
+        process_ap(context)
         return
     except Exception as err:
         logger.error('Runtime error in handler, exception below')
         logger.exception(err)
 
 if __name__ == '__main__':
-    context = create_context()
-    print(context)
+    handler()
