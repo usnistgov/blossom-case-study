@@ -88,7 +88,7 @@ def run_task(task: ApTask):
 
         env = environ.copy()
         for raw_param, value in task.params:
-            param = 'SSP_PARAM' + raw_param.capitalize().replace('-', '_')
+            param = 'SSP_PARAM_' + raw_param.capitalize().replace('-', '_')
             env[param] = value
 
         task_res_path = Path(task.resource.file)
