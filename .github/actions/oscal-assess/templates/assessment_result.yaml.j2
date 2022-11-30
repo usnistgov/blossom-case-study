@@ -1,14 +1,14 @@
 ---
 assessment-results:
-  uuid: 10e1188e-2271-4102-966d-66300d40440b
+  uuid: {{ ar_uuid }}
   metadata:
-    title: Bloss@m Automated Assessment Result
-    last-modified: 2022-11-23T09:00:00.000000-04:00
+    title: {{ ar_metadata_title }}
+    last-modified: {{ ar_metadata_last_modified_timestamp }}
     version: 0.0.1-alpha
     oscal-version: 1.0.4
 
   import-ap:
-    href: ./assessment-plan.yaml
+    href: {{ ar_import_ap_href }}
 
   # TODO: stuff this later
   local-definitions: {}
@@ -18,8 +18,7 @@ assessment-results:
       title: Assessment Results for Testing of SYSTEM
       description: >
         TBD
-      start: 2022-11-23T09:00:00.000000-04:00
-      end: 2022-11-23T09:00:00.000000-04:00
+      start: {{ ar_results_start_timestamp }}
       reviewed-controls:
           control-selections:
             - include-controls:

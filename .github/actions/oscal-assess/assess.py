@@ -1,11 +1,13 @@
 #!/usr/bin/env python3
 
+from datetime import datetime
 from jinja2 import Environment, FileSystemLoader, select_autoescape
 import logging
 from os import environ, path, PathLike
 from pathlib import Path
 import subprocess
 from typing import Dict, List, NamedTuple, Union
+from uuid import uuid4
 from yaml import safe_load
 
 from content import ApTask, extract_ap_tasks, extract_import_ssp
@@ -115,9 +117,17 @@ def create_ar(context: AssessmentWorkflowContext):
     """Generate an OSCAL Assessment Result YAML file based upon the result of automated assessment tests.
     """
     try:
+        current_timestamp = datetime.now().isoformat()
+
         with open(context.ar_path, 'w') as fh:
             template = context.ar_renderer.get_template(context.ar_template_file)
-            ar = template.render()
+            ar = template.render({
+                'ar_uuid':uuid4(),
+                'ar_metadata_title': 'OSCAL Workflow Automated Assessment Results',
+                'ar_metadata_last_modified_timestamp': current_timestamp,
+                'ar_import_ap_href': f"./{context.ap_path.name}",
+                'ar_result_start_timestamp': current_timestamp
+            })
             logger.debug(f"Writing rendered assessment result to {context.ar_path}")
             fh.write(ar)
 
