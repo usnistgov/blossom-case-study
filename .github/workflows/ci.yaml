@@ -105,7 +105,20 @@ jobs:
         run: pip install -r requirements.txt; npm ci
       - name: Start application container
         run: docker-compose up -d
-      # TODO: execute assess action
+      - name: Assess the system
+        id: assess
+        uses: ./.github/actions/oscal-validation
+        with:
+          assessment_plan_path: .oscal/assessment-plan.yaml
+          assessment_results_path: .oscal/assessment-results.yaml
+      - name: Validate the generated assessment results
+        id: validate-assessment-results
+        # run even if the assessment fails
+        if: success() || failure()
+        uses: ./.github/actions/oscal-validation
+        with:
+          model_type: profile
+          file_path: .oscal/assessment-results.yaml
       # TODO: create comment/artifact
       - name: Shut down application container
         run: docker-compose down
