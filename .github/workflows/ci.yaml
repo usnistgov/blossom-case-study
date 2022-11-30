@@ -119,7 +119,7 @@ jobs:
         if: success() || failure()
         uses: ./.github/actions/oscal-validation
         with:
-          model_type: profile
+          model_type: ar
           file_path: .oscal/assessment-results.yaml
       # TODO: create comment/artifact
       - name: Shut down application container
