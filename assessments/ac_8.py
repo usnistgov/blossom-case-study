@@ -22,7 +22,7 @@ using this system indicates your understanding of this warning.'''
 
 http = urllib3.PoolManager()
 # running via docker-compose.yaml
-response = http.request('GET', 'http://important:10000')
+response = http.request('GET', 'http://127.0.0.1:10000')
 
 soup = BeautifulSoup(response.text, 'html.parser')
 

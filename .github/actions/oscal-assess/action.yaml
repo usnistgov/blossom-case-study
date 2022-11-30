@@ -8,5 +8,12 @@ inputs:
     description: Path to the OSCAL Assessment Results YAML file be generated
     required: true
 runs:
-  using: docker
-  image: Dockerfile
+  using: composite
+  steps:
+    - run: pip install -r ${{ github.action_path }}/requirements.txt
+      shell: bash
+    - run: |
+        INPUT_ASSESSMENT_PLAN_PATH=${INPUT_ASSESSMENT_PLAN_PATH} \
+        INPUT_ASSESSMENT_RESULTS_PATH=${INPUT_ASSESSMENT_RESULTS_PATH} \
+          $GITHUB_ACTION_PATH/assess.py
+      shell: bash
