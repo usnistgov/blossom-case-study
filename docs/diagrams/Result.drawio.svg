@@ -1,0 +1,210 @@
+<svg host="65bd71144e" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" width="817px" height="339px" viewBox="-0.5 -0.5 817 339" content="&lt;mxfile&gt;&lt;diagram id=&quot;mIMZuAx7iQLJaLhnWtSb&quot; name=&quot;Generate Result&quot;&gt;7Zlbc9o4FMc/DTPdBxhfMJBHLoHsbDLpbrrt5lHgg1EjW15Z5tJP3yNbtjG2GdKGhGZKJkH6Szq6/XR8Irfssb+dCRKu7rgLrGUZ7rZlT1oWfvo2filllyptU2WV4gnqpppZCA/0G2jR0GpMXYhKFSXnTNKwLC54EMBCljQiBN+Uqy05K/caEg8qwsOCsKr6hbpypVXTMIqCG6DeSnc9cHTBnCyePMHjQPfXsuxl8kmLfZLZ0vWjFXH5Zk+yr1v2WHAu05S/HQNTi5stW9pu2lCaj1tAIE9pYH/5967tGH//9fWz/9i/n4xnW6+trURyl60HuLg8OsuFXHGPB4RdF+oIJxKqUr0jXKCWrAOongzMFe1uOQ9RNFH8ClLu9P6TWHKUVtJnupSRObBRvqRjzpTdiQtLEjOc32jJAzklPmUKtBtga5B0QXSBNmuaOp81xz0xDBt/UYfAHSpe1MgZiSK6UHORgj/BXvXuRP3kJRkSXVSqC56tHo/FAo6scldzTYQH8kg9J62ntmCvA72dM+A+SLHDCgIYkXRdJpjog+Dl9QoYMKF5eAYb+hyvCYt1T3eAE0DpPpZhLDHxmQhK5gzPr9VLdmkuMOWpFA1wiy1jGEUQRb5aMsv4ByK1mZaR+ZFP4Ic4Fail8FYhUaaEMOoFagPRHiju1iAUBmyoC3zqugmkAiL6TQ1NIxlyHFCyQs6o5UwauGkErASU+jQjG/AAamk5dgDVPGBb5/D0HEpOowSDbtU2OjZ+0raZM9bgncyLtv5RLdaeact0SnbNbtkEXy4jBPsQuHyQP86g/ds/XZB/GlyUf+pW/FPuhUrI9P6P1TN2VEp5+jvfu9omqqAdJZs3xApmN9zWGiILSXmAXnDa6XTw74QvnkAsKZqrOMZMwWppvxV5nmkzKm9iNZlhYh8THz4ppzpSTngCa2A8BPeP5j7ooZCb5hF6zTbJvXNbJL657UEAIvHI1eHsaXuGD85ncdIU7JsVlfAQkgS/DYaQ5VOFK8T24J5Ox9dX0zrsp9NB6nSr2De558bjUPG1zT7VGRw4PsPRwqaIFbHPVFvthYk940zUO43U/zTFzz0+FXo6O4Jbe5ycOuYLcO8fxsPbIkBo4rp+hOk8U1lNlEqMFxYNQ8fy6vEaYjSxxMNcP4cXJH1ugA29OtINGBiDwauT3rcOSM+f+W9Geq9C+i0nrgo/j0NyNKh8g9ABd0Xs/tPtk8yjynScLDvZ7hdOdjp3PL788XhDU/OG8Ub/xHije2K8kTHr/Fy4e/5wtn85zruTRAA4i/N78ffsN696FxchDC4HspAT/3dQ8MvC3e1eXFBwVYH7T3UVFArlsI/fNh1yQwIVTMzyf3iMj/fDu6g2anhvV1Evd+tkHSJi9p2TH7jayKBsodz8fA/j7A3EJUWIRVD4WIoJnxUhvo9LKTN7G/RSUeLr3Eplw77Ea6k0X3ogv9C91JgHS+rF6EiT/Du5jwLTdaBfR/xVr2+TXi3xr3kfddU1zvY8xmzxcjL1ucUrYPv6Ow==&lt;/diagram&gt;&lt;/mxfile&gt;" style="background-color: rgb(255, 255, 255);">
+    <defs/>
+    <g>
+        <path d="M 497 177 L 497 227 L 357 227 L 357 265.03" fill="none" stroke="#4d4d4d" stroke-width="4" stroke-miterlimit="10" pointer-events="stroke"/>
+        <path d="M 357 272.53 L 352 262.53 L 357 265.03 L 362 262.53 Z" fill="#4d4d4d" stroke="#4d4d4d" stroke-width="4" stroke-miterlimit="10" pointer-events="all"/>
+        <g transform="translate(-0.5 -0.5)">
+            <switch>
+                <foreignObject pointer-events="none" width="100%" height="100%" requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility" style="overflow: visible; text-align: left;">
+                    <div xmlns="http://www.w3.org/1999/xhtml" style="display: flex; align-items: unsafe center; justify-content: unsafe center; width: 1px; height: 1px; padding-top: 238px; margin-left: 253px;">
+                        <div data-drawio-colors="color: #000000; " style="box-sizing: border-box; font-size: 0px; text-align: center;">
+                            <div style="display: inline-block; font-size: 11px; font-family: Helvetica; color: rgb(0, 0, 0); line-height: 1.2; pointer-events: all; white-space: nowrap;">
+                                Merge Output Variables
+                                <br/>
+                                into Assessment Result Model Template
+                            </div>
+                        </div>
+                    </div>
+                </foreignObject>
+                <text x="253" y="241" fill="#000000" font-family="Helvetica" font-size="11px" text-anchor="middle">
+                    Merge Output Variables...
+                </text>
+            </switch>
+        </g>
+        <path d="M 497 177 L 497 227 L 637 227 L 637 265.03" fill="none" stroke="#4d4d4d" stroke-width="4" stroke-miterlimit="10" pointer-events="stroke"/>
+        <path d="M 637 272.53 L 632 262.53 L 637 265.03 L 642 262.53 Z" fill="#4d4d4d" stroke="#4d4d4d" stroke-width="4" stroke-miterlimit="10" pointer-events="all"/>
+        <rect x="382" y="117" width="230" height="60" rx="9" ry="9" fill="#ffce9f" stroke="#ff8000" stroke-width="4" pointer-events="all"/>
+        <g transform="translate(-0.5 -0.5)">
+            <switch>
+                <foreignObject pointer-events="none" width="100%" height="100%" requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility" style="overflow: visible; text-align: left;">
+                    <div xmlns="http://www.w3.org/1999/xhtml" style="display: flex; align-items: unsafe center; justify-content: unsafe center; width: 228px; height: 1px; padding-top: 147px; margin-left: 383px;">
+                        <div data-drawio-colors="color: #000000; " style="box-sizing: border-box; font-size: 0px; text-align: center;">
+                            <div style="display: inline-block; font-size: 12px; font-family: Helvetica; color: rgb(0, 0, 0); line-height: 1.2; pointer-events: all; white-space: normal; overflow-wrap: normal;">
+                                <b>
+                                    <font style="font-size: 14px">
+                                        actions/.../Dockerfile
+                                        <br/>
+                                    </font>
+                                </b>
+                                GitHub Action (To Be Developed)
+                                <br/>
+                                <i>
+                                    <b>
+                                        oscal-assessment-result-generate
+                                    </b>
+                                </i>
+                            </div>
+                        </div>
+                    </div>
+                </foreignObject>
+                <text x="497" y="151" fill="#000000" font-family="Helvetica" font-size="12px" text-anchor="middle">
+                    actions/.../Dockerfile...
+                </text>
+            </switch>
+        </g>
+        <rect x="242" y="277" width="230" height="60" rx="9" ry="9" fill="#b0e3e6" stroke="#0e8088" stroke-width="4" pointer-events="all"/>
+        <g transform="translate(-0.5 -0.5)">
+            <switch>
+                <foreignObject pointer-events="none" width="100%" height="100%" requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility" style="overflow: visible; text-align: left;">
+                    <div xmlns="http://www.w3.org/1999/xhtml" style="display: flex; align-items: unsafe center; justify-content: unsafe center; width: 228px; height: 1px; padding-top: 307px; margin-left: 243px;">
+                        <div data-drawio-colors="color: #000000; " style="box-sizing: border-box; font-size: 0px; text-align: center;">
+                            <div style="display: inline-block; font-size: 12px; font-family: Helvetica; color: rgb(0, 0, 0); line-height: 1.2; pointer-events: all; white-space: normal; overflow-wrap: normal;">
+                                <font style="font-size: 14px">
+                                    <b>
+                                        assessment-result.yaml
+                                    </b>
+                                </font>
+                                <br/>
+                                OSCAL Model
+                                <br/>
+                                <b style="font-style: italic">
+                                    as GitHub Action Artifact
+                                </b>
+                            </div>
+                        </div>
+                    </div>
+                </foreignObject>
+                <text x="357" y="311" fill="#000000" font-family="Helvetica" font-size="12px" text-anchor="middle">
+                    assessment-result.yaml...
+                </text>
+            </switch>
+        </g>
+        <path d="M 232 147 L 370.03 147" fill="none" stroke="#4d4d4d" stroke-width="4" stroke-miterlimit="10" pointer-events="stroke"/>
+        <path d="M 377.53 147 L 367.53 152 L 370.03 147 L 367.53 142 Z" fill="#4d4d4d" stroke="#4d4d4d" stroke-width="4" stroke-miterlimit="10" pointer-events="all"/>
+        <g transform="translate(-0.5 -0.5)">
+            <switch>
+                <foreignObject pointer-events="none" width="100%" height="100%" requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility" style="overflow: visible; text-align: left;">
+                    <div xmlns="http://www.w3.org/1999/xhtml" style="display: flex; align-items: unsafe center; justify-content: unsafe center; width: 1px; height: 1px; padding-top: 132px; margin-left: 307px;">
+                        <div data-drawio-colors="color: #000000; " style="box-sizing: border-box; font-size: 0px; text-align: center;">
+                            <div style="display: inline-block; font-size: 11px; font-family: Helvetica; color: rgb(0, 0, 0); line-height: 1.2; pointer-events: all; white-space: nowrap;">
+                                Load OSCAL Model
+                                <br/>
+                                Template
+                            </div>
+                        </div>
+                    </div>
+                </foreignObject>
+                <text x="307" y="135" fill="#000000" font-family="Helvetica" font-size="11px" text-anchor="middle">
+                    Load OSCAL Model...
+                </text>
+            </switch>
+        </g>
+        <rect x="2" y="117" width="230" height="60" rx="9" ry="9" fill="#b0e3e6" stroke="#0e8088" stroke-width="4" pointer-events="all"/>
+        <g transform="translate(-0.5 -0.5)">
+            <switch>
+                <foreignObject pointer-events="none" width="100%" height="100%" requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility" style="overflow: visible; text-align: left;">
+                    <div xmlns="http://www.w3.org/1999/xhtml" style="display: flex; align-items: unsafe center; justify-content: unsafe center; width: 228px; height: 1px; padding-top: 147px; margin-left: 3px;">
+                        <div data-drawio-colors="color: #000000; " style="box-sizing: border-box; font-size: 0px; text-align: center;">
+                            <div style="display: inline-block; font-size: 12px; font-family: Helvetica; color: rgb(0, 0, 0); line-height: 1.2; pointer-events: all; white-space: normal; overflow-wrap: normal;">
+                                <font style="font-size: 14px">
+                                    <b>
+                                        .oscal/assessment-result.yaml
+                                    </b>
+                                </font>
+                                <br/>
+                                OSCAL Model
+                            </div>
+                        </div>
+                    </div>
+                </foreignObject>
+                <text x="117" y="151" fill="#000000" font-family="Helvetica" font-size="12px" text-anchor="middle">
+                    .oscal/assessment-result.yaml...
+                </text>
+            </switch>
+        </g>
+        <rect x="522" y="277" width="230" height="60" rx="9" ry="9" fill="#b0e3e6" stroke="#0e8088" stroke-width="4" pointer-events="all"/>
+        <g transform="translate(-0.5 -0.5)">
+            <switch>
+                <foreignObject pointer-events="none" width="100%" height="100%" requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility" style="overflow: visible; text-align: left;">
+                    <div xmlns="http://www.w3.org/1999/xhtml" style="display: flex; align-items: unsafe center; justify-content: unsafe center; width: 228px; height: 1px; padding-top: 307px; margin-left: 523px;">
+                        <div data-drawio-colors="color: #000000; " style="box-sizing: border-box; font-size: 0px; text-align: center;">
+                            <div style="display: inline-block; font-size: 12px; font-family: Helvetica; color: rgb(0, 0, 0); line-height: 1.2; pointer-events: all; white-space: normal; overflow-wrap: normal;">
+                                <font style="font-size: 14px">
+                                    <b>
+                                        poam.yaml
+                                    </b>
+                                </font>
+                                <br/>
+                                OSCAL Model
+                                <br/>
+                                <b style="font-style: italic">
+                                    as GitHub Action Artifact
+                                </b>
+                            </div>
+                        </div>
+                    </div>
+                </foreignObject>
+                <text x="637" y="311" fill="#000000" font-family="Helvetica" font-size="12px" text-anchor="middle">
+                    poam.yaml...
+                </text>
+            </switch>
+        </g>
+        <g transform="translate(-0.5 -0.5)">
+            <switch>
+                <foreignObject pointer-events="none" width="100%" height="100%" requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility" style="overflow: visible; text-align: left;">
+                    <div xmlns="http://www.w3.org/1999/xhtml" style="display: flex; align-items: unsafe center; justify-content: unsafe center; width: 1px; height: 1px; padding-top: 239px; margin-left: 731px;">
+                        <div data-drawio-colors="color: #000000; " style="box-sizing: border-box; font-size: 0px; text-align: center;">
+                            <div style="display: inline-block; font-size: 11px; font-family: Helvetica; color: rgb(0, 0, 0); line-height: 1.2; pointer-events: all; white-space: nowrap;">
+                                Interpret Assessment Result Model
+                                <br/>
+                                and Generate POAMs
+                            </div>
+                        </div>
+                    </div>
+                </foreignObject>
+                <text x="731" y="242" fill="#000000" font-family="Helvetica" font-size="11px" text-anchor="middle">
+                    Interpret Assessment Result Model...
+                </text>
+            </switch>
+        </g>
+        <path d="M 497 62 L 497 105.03" fill="none" stroke="#4d4d4d" stroke-width="4" stroke-miterlimit="10" pointer-events="stroke"/>
+        <path d="M 497 112.53 L 492 102.53 L 497 105.03 L 502 102.53 Z" fill="#4d4d4d" stroke="#4d4d4d" stroke-width="4" stroke-miterlimit="10" pointer-events="all"/>
+        <rect x="382" y="2" width="230" height="60" rx="9" ry="9" fill="#e1d5e7" stroke="#9673a6" stroke-width="4" pointer-events="all"/>
+        <g transform="translate(-0.5 -0.5)">
+            <switch>
+                <foreignObject pointer-events="none" width="100%" height="100%" requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility" style="overflow: visible; text-align: left;">
+                    <div xmlns="http://www.w3.org/1999/xhtml" style="display: flex; align-items: unsafe center; justify-content: unsafe center; width: 228px; height: 1px; padding-top: 32px; margin-left: 383px;">
+                        <div data-drawio-colors="color: #000000; " style="box-sizing: border-box; font-size: 0px; text-align: center;">
+                            <div style="display: inline-block; font-size: 12px; font-family: Helvetica; color: rgb(0, 0, 0); line-height: 1.2; pointer-events: all; white-space: normal; overflow-wrap: normal;">
+                                <b>
+                                    <font style="font-size: 14px">
+                                        actions/.../action.yaml
+                                        <br/>
+                                    </font>
+                                </b>
+                                GitHub Action Configuration
+                                <br/>
+                                <i>
+                                    <b>
+                                        oscal-assessment-result-generate
+                                    </b>
+                                </i>
+                            </div>
+                        </div>
+                    </div>
+                </foreignObject>
+                <text x="497" y="36" fill="#000000" font-family="Helvetica" font-size="12px" text-anchor="middle">
+                    actions/.../action.yaml...
+                </text>
+            </switch>
+        </g>
+    </g>
+    <switch>
+        <g requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility"/>
+        <a transform="translate(0,-5)" xlink:href="https://www.diagrams.net/doc/faq/svg-export-text-problems" target="_blank">
+            <text text-anchor="middle" font-size="10px" x="50%" y="100%">
+                Viewer does not support full SVG 1.1
+            </text>
+        </a>
+    </switch>
+</svg>
