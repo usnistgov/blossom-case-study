@@ -1,7 +1,0 @@
-#!/usr/bin/env bash
-
-set -Eeuo pipefail
-
-INPUT_ASSESSMENT_PLAN_PATH=${INPUT_ASSESSMENT_PLAN_PATH} \
-INPUT_ASSESSMENT_RESULTS_PATH=${INPUT_ASSESSMENT_RESULTS_PATH} \
-    /opt/oscal-assess/assess.py
