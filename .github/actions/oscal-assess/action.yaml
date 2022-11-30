@@ -13,7 +13,7 @@ runs:
     - run: pip install -r ${{ github.action_path }}/requirements.txt
       shell: bash
     - run: |
-        INPUT_ASSESSMENT_PLAN_PATH=${INPUT_ASSESSMENT_PLAN_PATH} \
-        INPUT_ASSESSMENT_RESULTS_PATH=${INPUT_ASSESSMENT_RESULTS_PATH} \
+        INPUT_ASSESSMENT_PLAN_PATH=${{ inputs.assessment_plan_path }} \
+        INPUT_ASSESSMENT_RESULTS_PATH=${{ inputs.assessment_results_path }} \
           $GITHUB_ACTION_PATH/assess.py
       shell: bash
