@@ -4,7 +4,7 @@ import logging
 from os import environ, path, PathLike
 from pathlib import Path
 import subprocess
-from typing import NamedTuple, Union
+from typing import Dict, List, NamedTuple, Union
 from yaml import safe_load
 
 from content import ApTask, extract_ap_tasks, extract_import_ssp
@@ -15,6 +15,10 @@ logger.setLevel(getattr(logging, str(environ.get('OSCAL_ASSESS_LOGLEVEL', 'DEBUG
 
 ASSESSMENT_RESULT_TEMPLATE = f"{path.dirname(path.realpath(__file__))}/assessment_result.yaml.j2"
 
+class ApTaskResult(NamedTuple):
+    task: ApTask
+    result: bool
+
 class AssessmentWorkflowContext(NamedTuple):
     ap: dict
     ap_path: Union[str, bytes, Path, PathLike]
@@ -22,6 +26,7 @@ class AssessmentWorkflowContext(NamedTuple):
     ar_template_path: Union[str, bytes, Path, PathLike]
     ssp: dict
     ssp_path: Union[str, bytes, Path, PathLike]
+    tasks_results: List[ApTaskResult]
 
 def create_context() -> AssessmentWorkflowContext:
     """Create execution context for runtime requirements of workflow.
@@ -39,7 +44,7 @@ def create_context() -> AssessmentWorkflowContext:
         logger.error('Context builder failed because env vars or template file incorrect')
         raise err
 
-    return AssessmentWorkflowContext(ap, ap_path, ar_path, ar_template_path, ssp, ssp_path)
+    return AssessmentWorkflowContext(ap, ap_path, ar_path, ar_template_path, ssp, ssp_path, [])
 
 def load_yaml(path: Union[str, bytes, Path, PathLike]):
     """Load an OSCAL Assessment Plan YAML file.
@@ -63,7 +68,9 @@ def process_ap(context):
     for idx, t in enumerate(tasks):
         try:
             logger.debug(f"Running task {idx+1}/{tasks_count}")
-            run_task(t)
+            task_result = ApTaskResult
+            context.tasks_results.append(ApTaskResult(t,task_result if type(task_result) == bool else False))
+
         except Exception as err:
             logger.exception(err)
             logger.err(f"Running task {idx+1} failed, continuing to next task if any")
@@ -97,7 +104,7 @@ def handler():
     """
     try:
         context = create_context()
-        process_ap(context)
+        tasks_results = process_ap(context)
         return
     except Exception as err:
         logger.error('Runtime error in handler, exception below')
