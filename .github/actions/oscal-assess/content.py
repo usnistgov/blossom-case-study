@@ -110,3 +110,6 @@ def extract_ap_tasks(input_ap: dict, input_ssp: dict) -> List[ApTask]:
         ))
 
     return tasks
+
+def extract_import_ssp(input_ap: dict) -> str:
+    return jmespath.search(f'"assessment-plan"."import-ssp"."href"', input_ap)
