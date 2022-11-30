@@ -105,6 +105,8 @@ jobs:
         run: pip install -r requirements.txt; npm ci
       - name: Start application container
         run: docker-compose up -d
+      - name: Sleep for a bit
+        run: sleep 15
       - name: Assess the system
         id: assess
         uses: ./.github/actions/oscal-assess
