@@ -13,9 +13,9 @@ RUN mkdir -p /opt/oscal-assess/
 COPY docker-entrypoint.sh /docker-entrypoint.sh
 COPY assess.py /opt/oscal-assess/
 COPY content.py /opt/oscal-assess/
-COPY requirements.txt /opt/oscal-assess
 COPY assessment_result.yaml.j2 /opt/oscal-assess/
+COPY requirements.txt /opt/oscal-assess
 
-RUN python3 -m pip install -r /opt/oscal-assess/requirements.txt 
+RUN python3 -m pip install -r /opt/oscal-assess/requirements.txt
 
 ENTRYPOINT ["/docker-entrypoint.sh"]
