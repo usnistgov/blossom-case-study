@@ -86,8 +86,13 @@ def run_task(task: ApTask):
             logger.warning(f"Task ar-check-method is unsupported '{ar_check_method}', not 'system-shell-return-code'")
             return False
 
+        env = environ.copy()
+        for raw_param, value in task.params:
+            param = 'SSP_PARAM' + raw_param.capitalize().replace('-', '_')
+            env[param] = value
+
         task_res_path = Path(task.resource.file)
-        return_code = subprocess.call(task_res_path)
+        return_code = subprocess.call(task_res_path, env=env)
         return return_code == ar_check_result
 
     except Exception as err:
