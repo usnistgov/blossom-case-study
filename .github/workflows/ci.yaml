@@ -113,20 +113,14 @@ jobs:
         with:
           assessment_plan_path: .oscal/assessment-plan.yaml
           assessment_results_path: .oscal/assessment-results.yaml
-      # - name: Validate the generated assessment results
-      #   id: validate-assessment-results
-      #   # run even if the assessment fails
-      #   if: success() || failure()
-      #   uses: ./.github/actions/oscal-validation
-      #   with:
-      #     model_type: profile
-      #     file_path: .oscal/assessment-results.yaml
-      - run: docker-compose logs
-        if: always()
-      - run: curl 127.0.0.1:10000
-        if: always()
-      - run: curl important:10000
-        if: always()
+      - name: Validate the generated assessment results
+        id: validate-assessment-results
+        # run even if the assessment fails
+        if: success() || failure()
+        uses: ./.github/actions/oscal-validation
+        with:
+          model_type: profile
+          file_path: .oscal/assessment-results.yaml
       # TODO: create comment/artifact
       - name: Shut down application container
         run: docker-compose down

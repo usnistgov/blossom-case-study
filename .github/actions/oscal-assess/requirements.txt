@@ -10,4 +10,3 @@ PyYAML==6.0
 tomli==2.0.1
 beautifulsoup4==4.11.1
 soupsieve==2.3.2.post1
-urllib3==1.26.13

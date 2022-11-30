@@ -2,8 +2,8 @@
 # Consumed by the oscal-workflow harness
 
 import textwrap
+from urllib import request
 
-import urllib3
 from bs4 import BeautifulSoup
 
 # The system use notification we expect
@@ -20,11 +20,10 @@ Government purpose. This information system may contain Controlled Unclassified 
 safeguarding or dissemination controls in accordance with law, regulation, or Government-wide policy. Accessing and 
 using this system indicates your understanding of this warning.'''
 
-http = urllib3.PoolManager()
 # running via docker-compose.yaml
-response = http.request('GET', 'http://127.0.0.1:10000')
+response = request.urlopen('http://127.0.0.1:10000')
 
-soup = BeautifulSoup(response.text, 'html.parser')
+soup = BeautifulSoup(response, 'html.parser')
 
 # Drill into the element that the system use notification text lives
 raw_use_notification = soup.body.div.p.text
