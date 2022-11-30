@@ -39,12 +39,10 @@ assessment-plan:
           - control-id: ac-8
     control-objective-selections:
       - include-objectives:
-          - objective-id: ac-8.a_obj
-          - objective-id: ac-8.a_obj.1
-          - objective-id: ac-8.a_obj.2
-          - objective-id: ac-8.a_obj.3
-          - objective-id: ac-8.a_obj.4
-          - objective-id: ac-8_obj.b
+          - objective-id: ac-8_obj.a.1
+          - objective-id: ac-8_obj.a.2
+          - objective-id: ac-8_obj.a.3
+          - objective-id: ac-8_obj.a.4
     remarks: Control objective selections are declared separately of the include-controls directive, must be explicit here.
 
   tasks:
