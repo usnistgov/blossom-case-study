@@ -79,7 +79,7 @@ def extract_ap_task_link_uuid(input_ap_task: dict) -> str:
         return href[1:]
 
 def extract_associated_control(input_ap: dict, uuid: str) -> str:
-    return jmespath.search(f'"assessment-plan"."local-definitions"."activities"[?uuid==\'{uuid}\']."related-controls"[*]."control-selections"[0]', input_ap)[0][0]
+    return jmespath.search(f'"assessment-plan"."local-definitions"."activities"[?uuid==\'{uuid}\']."related-controls"."control-selections"[*]."include-controls"[0]."control-id" | [] | [0]', input_ap)
 
 def extract_ap_tasks(input_ap: dict, input_ssp: dict) -> List[ApTask]:
     raw_tasks = jmespath.search('"assessment-plan".tasks[?type==\'action\']', input_ap)

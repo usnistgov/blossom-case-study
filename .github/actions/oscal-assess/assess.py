@@ -73,10 +73,11 @@ def run_task(task: ApTask):
     try:
         logger.debug(f"Trying to run task '{task.title}' with uuid {task.uuid}")
         ar_check_method = task.props.get('ar-check-method', '')
-        ar_check_result = task.props.get('ar-check-method')
+        ar_check_result = int(task.props.get('ar-check-result'))
 
         if ar_check_method != 'system-shell-return-code':
             logger.warning(f"Task ar-check-method is unsupported '{ar_check_method}', not 'system-shell-return-code'")
+            return False
 
         task_res_path = Path(task.resource.file)
         return_code = subprocess.call(task_res_path)
