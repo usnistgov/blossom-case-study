@@ -2,4 +2,6 @@
 
 set -Eeuo pipefail
 
-/opt/oscal-assess/assess.py
+INPUT_ASSESSMENT_PLAN_PATH=${INPUT_ASSESSMENT_PLAN_PATH} \
+INPUT_ASSESSMENT_RESULTS_PATH=${INPUT_ASSESSMENT_RESULTS_PATH} \
+    /opt/oscal-assess/assess.py
