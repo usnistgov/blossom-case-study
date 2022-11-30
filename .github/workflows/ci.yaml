@@ -107,7 +107,7 @@ jobs:
         run: docker-compose up -d
       - name: Assess the system
         id: assess
-        uses: ./.github/actions/oscal-validation
+        uses: ./.github/actions/oscal-assess
         with:
           assessment_plan_path: .oscal/assessment-plan.yaml
           assessment_results_path: .oscal/assessment-results.yaml

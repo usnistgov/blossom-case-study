@@ -5,10 +5,10 @@ on:
       - main
       - develop
     paths:
-      - .github/actions/oscal-assess
+      - .github/actions/oscal-assess/**
   pull_request:
     paths:
-      - .github/actions/oscal-assess
+      - .github/actions/oscal-assess/**
 jobs:
   application_test:
     runs-on: ubuntu-22.04
