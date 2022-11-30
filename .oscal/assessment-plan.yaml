@@ -15,13 +15,24 @@ assessment-plan:
       - uuid: d85636e6-0d9d-4c94-a924-5a612a119040
         title: Automated Tests of Application Configuration
         description: A description of automated testing.
+        props:
+          - name: method
+            value: TEST 
         related-controls:
-          - description: >
-              This automated testing evaluates system notification banner implementations in different layers of the system.
-            control-selections:
-              - ac-8
-            control-objective-selections:
-              - include-all: {}
+          description: >
+            This automated testing evaluates system notification banner implementations in different layers of the system.
+          control-selections:
+            - include-controls:
+              - control-id: ac-8
+          control-objective-selections:
+            - include-all: {}
+
+  assessment-subjects:
+    - type: component
+      description: >
+        The assessment subject is the 'this-system' component representing the sample application.
+      include-all: {}
+
   reviewed-controls:
     control-selections:
       - include-controls:
@@ -43,6 +54,9 @@ assessment-plan:
       type: action
       associated-activities:
         - activity-uuid: d85636e6-0d9d-4c94-a924-5a612a119040
+          subjects:
+            - type: component
+              include-all: {}
       props:
         - name: ar-check-method
           ns: https://www.nist.gov/itl/csd/ssag/blossom
