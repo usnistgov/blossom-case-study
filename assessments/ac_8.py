@@ -1,20 +1,10 @@
 #!/usr/bin/env python3
 # Consumed by the oscal-workflow harness
 
-import sys
-import os
 import textwrap
 
+import urllib3
 from bs4 import BeautifulSoup
-from fastapi.testclient import TestClient
-
-# Append parent directory to path, giving us access to the `app` package
-sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
-
-from app.api import enroller
-
-# Mock an html client that actually consumes the fastAPI app we are assessing
-client = TestClient(enroller)
 
 # The system use notification we expect
 # TODO: source this from a passed in param/env var
@@ -30,8 +20,9 @@ Government purpose. This information system may contain Controlled Unclassified 
 safeguarding or dissemination controls in accordance with law, regulation, or Government-wide policy. Accessing and 
 using this system indicates your understanding of this warning.'''
 
-# Get the landing page
-response = client.get("/")
+http = urllib3.PoolManager()
+# running via docker-compose.yaml
+response = http.request('GET', 'http://important:10000')
 
 soup = BeautifulSoup(response.text, 'html.parser')
 

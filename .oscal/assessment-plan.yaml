@@ -74,7 +74,7 @@ assessment-plan:
         title: AC-8 In-App
         description: Test the satisfaction of AC-8 by mocking the fastAPI server
         rlinks:
-          - href: assessments/ac_8_inapp.py
+          - href: assessments/ac_8.py
             media-type: text/plain
             hashes:
               - algorithm: SHA-256

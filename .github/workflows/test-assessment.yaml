@@ -10,7 +10,7 @@ on:
     paths:
       - .github/actions/oscal-assess/**
 jobs:
-  application_test:
+  action_test:
     runs-on: ubuntu-22.04
     steps:
       - uses: actions/checkout@v3
