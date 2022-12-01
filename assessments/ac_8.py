@@ -7,9 +7,7 @@ from urllib import request
 
 from bs4 import BeautifulSoup
 
-# The system use notification we expect
-# TODO: source this from a passed in param/env var
-
+# The system use notification text
 expected_use_notification = os.getenv('SSP_PARAM_AC_8_PRM_1')
 if expected_use_notification is None:
     raise Exception('ac-8_prm_1 must be defined in the SSP')

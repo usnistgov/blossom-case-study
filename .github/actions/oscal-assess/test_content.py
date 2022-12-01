@@ -16,7 +16,7 @@ def test_extract_ap_resource():
     resource = extract_ap_resource(ap, '31291ea5-13d7-44c6-aac6-bc61d9975ec5')
 
     assert resource.title == 'AC-8 In-App'
-    assert resource.file == 'assessments/ac_8_inapp.py'
+    assert resource.file == 'assessments/ac_8.py'
     assert resource.hash == '97428f53de57bb72e4647c5726794d3d2247da90f6a286d12150b1042dd9204c'
 
 def test_extract_ap_resource_sad():
@@ -45,7 +45,7 @@ def test_extract_ap_tasks():
 
     # assert resources are carried over
     assert task.resource.title == 'AC-8 In-App'
-    assert task.resource.file == 'assessments/ac_8_inapp.py'
+    assert task.resource.file == 'assessments/ac_8.py'
     assert task.resource.hash == '97428f53de57bb72e4647c5726794d3d2247da90f6a286d12150b1042dd9204c'
 
     assert task.associated_control == 'ac-8'
