@@ -110,7 +110,7 @@ jobs:
       - name: Start application container
         run: docker-compose up -d
       - name: Sleep for a bit
-        run: sleep 15
+        run: sleep 12
       - name: Assess the system
         id: assess
         uses: ./.github/actions/oscal-assess
@@ -125,6 +125,19 @@ jobs:
         with:
           model_type: ar
           file_path: .oscal/assessment-results.yaml
-      # TODO: create comment/artifact
+      - name: Comment findings
+        id: comment-step
+        if: ${{ steps.validate-assessment-results.conclusion == 'success' }}
+        uses: actions/github-script@v6
+        with:
+          github-token: ${{secrets.GITHUB_TOKEN}}
+          script: |
+            const body = "Findings:";
+            return await github.rest.repos.createCommitComment({
+              body,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              commit_sha: '${{ github.event.pull_request.head.sha }}'
+            });
       - name: Shut down application container
         run: docker-compose down
