@@ -8,9 +8,9 @@ from pathlib import Path
 import subprocess
 from typing import Dict, List, NamedTuple, Union
 from uuid import uuid4
-from yaml import safe_load
+from yaml import safe_dump, safe_load
 
-from content import ApTask, extract_ap_tasks, extract_import_ssp
+from content import ApTask, extract_ap_tasks, extract_import_ssp, extract_reviewed_controls
 
 logging.basicConfig()
 logger = logging.getLogger('oscal_assess')
@@ -39,25 +39,47 @@ def create_context() -> AssessmentWorkflowContext:
     """Create execution context for runtime requirements of workflow.
     """
     try:
-        ap_path = Path(environ.get('INPUT_ASSESSMENT_PLAN_PATH')) if Path(environ.get('INPUT_ASSESSMENT_PLAN_PATH')).exists() else None
-        ar_path = Path(environ.get('INPUT_ASSESSMENT_RESULTS_PATH')) if Path('INPUT_ASSESSMENT_RESULTS_PATH').parent.exists() else None
+        ap_path = Path(environ.get('INPUT_ASSESSMENT_PLAN_PATH', 'nopath')) if Path(environ.get('INPUT_ASSESSMENT_PLAN_PATH', 'nopath')).exists() else None
+        ar_path = Path(environ.get('INPUT_ASSESSMENT_RESULTS_PATH', 'nopath')) if Path(environ.get('INPUT_ASSESSMENT_RESULTS_PATH', 'nopath')).parent.exists() else None
         ar_template_path =  Path(ASSESSMENT_RESULT_TEMPLATE) if (Path(ASSESSMENT_RESULT_TEMPLATE).exists()) else None
         ar_template_file = ar_template_path.name
 
-        ap = load_yaml(ap_path)
-        ssp_path = extract_import_ssp(ap)
-        ssp = load_yaml(f"{ap_path.parent}/{ssp_path}")
+        if not ap_path: raise RuntimeError('Assessment plan path invalid')
+        if not ar_path: raise RuntimeError('Assessment result output path invalid')
+        if not ar_template_path: raise RuntimeError('Path for assessment template file invalid')
 
-        return AssessmentWorkflowContext(
+        ap = load_yaml(ap_path)
+        ssp_file = extract_import_ssp(ap)
+        ssp_path = Path(f"{ap_path.parent}/{ssp_file}") if Path(f"{ap_path.parent}/{ssp_file}").exists() else None
+
+        if not ssp_path: raise RuntimeError('Invalid path for SSP file referenced in assessment plan path invalid')
+
+        ssp = load_yaml(ssp_path)
+
+        ar_renderer = Environment(loader=FileSystemLoader(TEMPLATES_DIR))
+
+        # By default, Jinja2 does not have a filter to convert Python objects
+        # from Python to YAML, only JSON, we have to create our own filter.
+        # https://github.com/kapicorp/kapitan/issues/27
+        # https://github.com/kapicorp/kapitan/pull/32
+        def jinja2_yaml_filter(obj):
+            return safe_dump(obj, default_flow_style=False)
+
+        ar_renderer.filters['to_yaml'] = jinja2_yaml_filter
+
+        context = AssessmentWorkflowContext(
             ap, ap_path, 
             ar_path, ar_template_path, ar_template_file,
             ssp, ssp_path, 
             tasks_results=[], 
-            ar_renderer=Environment(loader=FileSystemLoader(TEMPLATES_DIR))
+            ar_renderer=ar_renderer
         )
+
+        logger.debug(f"Context: {context}")
+        return context
         
     except Exception as err:
-        logger.error('Context builder failed because env vars or template file incorrect')
+        logger.error('Context builder failed')
         raise err
 
 def load_yaml(path: Union[str, bytes, Path, PathLike]):
@@ -91,6 +113,12 @@ def process_ap(context):
             continue
 
 def run_task(task: ApTask):
+    """Execute an OSCAL Assessment Plan task with a ar-check-method as defined
+    in the relevant property as one of type 'system-shell-return-code' and
+    return a boolean that reflects whether the actual POSIX shell return code
+    matches the expected return code value as defined in the value of the prop
+    'ar-check-result' for that task.
+    """
     try:
         logger.debug(f"Trying to run task '{task.title}' with uuid {task.uuid}")
         ar_check_method = task.props.get('ar-check-method', '')
@@ -113,23 +141,86 @@ def run_task(task: ApTask):
         logger.error(f"Running task with uuid {task.uuid} failed")
         raise err
 
+def tasks_results_to_observations(tasks_results: List[ApTaskResult], current_timestamp: str) -> dict:
+    """Cross reference an Assessment Plan's activities, its tasks, their
+    results and generate a dictionary of observation to be inserted in the
+    Assessment Results template.
+    """
+    raw_data = {'observations': []}
+
+    for tr in tasks_results:
+        task = tr.task
+        method = task.associated_activity_props.get('method')
+        observation_uuid = str(uuid4())
+        raw_data['observations'].append({
+            'uuid': observation_uuid,
+            'method': method,
+            'title': task.title if task.title else f"OSCAL Assessment Workflow Observation {observation_uuid}",
+            'description': task.description if task.description else 'No description provided',
+            'relevant_evidence': [
+                {
+                    'href': 'https://example.com/path/to/scan',
+                    'description': 'This observation is the result of automated testing in a run of a GitHub Actions workflow. For detailed information, please review the run status and detailed logging from its configuration, step inputs, and step outputs.'
+                }
+            ],
+            'collected': current_timestamp
+        })
+
+    logger.debug(f"{len(raw_data.get('observations', {}))} observation(s) processed")
+    return raw_data
+
+def observations_to_findings(tasks_results: List[ApTaskResult], observations: List[dict], current_timestamp: str) -> dict:
+    raw_data = {'findings': []}
+
+    for o in observations:
+        finding_uuid = str(uuid4())
+        raw_data['findings'].append({
+            'uuid': finding_uuid,
+            'title': f"Finding from Observation {o.get('uuid', 'ENOUUID')}",
+            'description': 'TBD',
+            'target': {
+                'type': 'objective-id',
+                'target-id': 'ac-8_obj.a.1',
+                'title': 'Target Title',
+                'status': {
+                    'state': 'not-satisfied',
+                    'reason': 'failed'
+                }
+            },
+            'related-observations': [
+                {'observation-uuid': o.get('uuid', 'ENOUUID')}
+            ]
+        })
+
+    logger.debug(f"{len(raw_data.get('findings', {}))} finding(s) processed from {len(observations)} observation(s).")
+    return raw_data
+
 def create_ar(context: AssessmentWorkflowContext):
-    """Generate an OSCAL Assessment Result YAML file based upon the result of automated assessment tests.
+    """Generate an OSCAL Assessment Result YAML file based upon the result of
+    automated assessment tests.
     """
     try:
         current_timestamp = datetime.now(timezone.utc).isoformat()
+        ap_reviewed_controls = extract_reviewed_controls(context.ap)
+        ar_observations = tasks_results_to_observations(context.tasks_results, current_timestamp)
+        ar_findings = observations_to_findings(context.tasks_results, ar_observations.get('observations', {}), current_timestamp)
 
         with open(context.ar_path, 'w') as fh:
             template = context.ar_renderer.get_template(context.ar_template_file)
             ar = template.render({
-                'ar_uuid':uuid4(),
+                'ar_uuid': uuid4(),
                 'ar_metadata_title': 'OSCAL Workflow Automated Assessment Results',
                 'ar_metadata_last_modified_timestamp': current_timestamp,
                 'ar_import_ap_href': f"./{context.ap_path.name}",
-                'ar_results_start_timestamp': current_timestamp
+                'ap_reviewed_controls': ap_reviewed_controls,
+                'ar_results_start_timestamp': current_timestamp,
+                'ar_results_start_timestamp': current_timestamp,
+                'ar_observations': ar_observations,
+                'ar_findings': ar_findings
             })
             logger.debug(f"Writing rendered assessment result to {context.ar_path}")
             fh.write(ar)
+            logger.info(f"Completed assessment per plan, wrote results to file")
 
     except Exception as err:
         logger.error(f"Rending assessment result with {context.ar_template_path} failed")

@@ -65,6 +65,7 @@ class ApTask(NamedTuple):
     associated_control: str
     associated_control_objective_selections: List[str]
     # name -> value
+    associated_activity_props: Dict[str, str]
     props: Dict[str, str]
 
 def extract_ap_task_link_uuid(input_ap_task: dict) -> str:
@@ -79,11 +80,17 @@ def extract_ap_task_link_uuid(input_ap_task: dict) -> str:
 
         return href[1:]
 
+def extract_reviewed_controls(input_ap: dict) -> dict:
+    return jmespath.search(f'"assessment-plan"."reviewed-controls"', input_ap)
+
 def extract_associated_control(input_ap: dict, uuid: str) -> str:
     return jmespath.search(f'"assessment-plan"."local-definitions"."activities"[?uuid==\'{uuid}\']."related-controls"."control-selections"[*]."include-controls"[0]."control-id" | [] | [0]', input_ap)
 
 def extract_associated_control_objective_selections(input_ap: dict, uuid: str) -> List[str]:
     return jmespath.search(f'"assessment-plan"."local-definitions"."activities"[?uuid==\'{uuid}\']."related-controls"."control-objective-selections"[*]."include-objectives"[0]."objective-id" | []', input_ap)
+
+def extracted_associated_activity_props(input_ap: dict, uuid: str) -> List[dict]:
+    return jmespath.search(f'"assessment-plan"."local-definitions"."activities"[?uuid==\'{uuid}\']."props" | []', input_ap)
 
 def extract_ap_tasks(input_ap: dict, input_ssp: dict) -> List[ApTask]:
     raw_tasks = jmespath.search('"assessment-plan".tasks[?type==\'action\']', input_ap)
@@ -104,6 +111,11 @@ def extract_ap_tasks(input_ap: dict, input_ssp: dict) -> List[ApTask]:
             for prop in raw_task['props']
         }
 
+        associated_activity_props = {
+            prop['name']: prop['value']
+            for prop in extracted_associated_activity_props(input_ap, raw_task['associated-activities'][0]['activity-uuid'])
+        }
+
         tasks.append(ApTask(
             uuid=raw_task['uuid'],
             title=raw_task['title'],
@@ -112,6 +124,7 @@ def extract_ap_tasks(input_ap: dict, input_ssp: dict) -> List[ApTask]:
             params=params,
             associated_control=associated_control,
             associated_control_objective_selections=associated_control_objective_selections,
+            associated_activity_props=associated_activity_props,
             props=props
         ))
 

@@ -20,32 +20,10 @@ assessment-results:
         TBD
       start: {{ ar_results_start_timestamp }}
       reviewed-controls:
-          control-selections:
-            - include-controls:
-              - control-id: ac-8
-          control-objective-selections:
-            - include-objectives:
-              - objective-id: ac-8_obj.a.1
-              - objective-id: ac-8_obj.a.2
-              - objective-id: ac-8_obj.a.3
-              - objective-id: ac-8_obj.a.4
-      observations:
-        - uuid: 4dbe72ae-350d-4575-8109-b5de8b8d6296
-          title: Observation from Automated Testing of GHA Blah Blah Blah
-          description: >
-            TBD
-          methods:
-            - TEST
-          relevant-evidence:
-            - href: https://github.com/usnistgov/blossom-case-study/actions/runs/3586003264/jobs/6034673633
-              description: >
-                This observation is the result of automated testing in a run of a GitHub Actions workflow.
-                For detailed information, please review the run status and detailed logging from its
-                configuration, step inputs, and step outputs.
-          collected: 2022-11-23T09:00:00.000000-04:00
-
-      # TODO: Conditional logic for observations w/ findings
-      findings:
+{{ ap_reviewed_controls | to_yaml | indent(8, first=True) }}
+{{ ar_observations | to_yaml | indent(6, first=True) }}
+{{ ar_findings | to_yaml | indent(6, first=True) }}
+      findings1:
         - uuid: ffeecf55-2d51-448c-921d-3cdb6590311a
           title: Findings from Automated Assessment Workflow
           description: >
@@ -59,3 +37,4 @@ assessment-results:
               reason: fail
           related-observations:
             - observation-uuid: 0a1f398c-bd52-42c5-8621-0e145ba2e82e
+
