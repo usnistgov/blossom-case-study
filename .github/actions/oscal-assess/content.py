@@ -63,6 +63,7 @@ class ApTask(NamedTuple):
     resource: ApTaskResource
     params: Dict[str, str]
     associated_control: str
+    associated_control_objective_selections: List[str]
     # name -> value
     props: Dict[str, str]
 
@@ -81,6 +82,9 @@ def extract_ap_task_link_uuid(input_ap_task: dict) -> str:
 def extract_associated_control(input_ap: dict, uuid: str) -> str:
     return jmespath.search(f'"assessment-plan"."local-definitions"."activities"[?uuid==\'{uuid}\']."related-controls"."control-selections"[*]."include-controls"[0]."control-id" | [] | [0]', input_ap)
 
+def extract_associated_control_objective_selections(input_ap: dict, uuid: str) -> List[str]:
+    return jmespath.search(f'"assessment-plan"."local-definitions"."activities"[?uuid==\'{uuid}\']."related-controls"."control-objective-selections"[*]."include-objectives"[0]."objective-id" | []', input_ap)
+
 def extract_ap_tasks(input_ap: dict, input_ssp: dict) -> List[ApTask]:
     raw_tasks = jmespath.search('"assessment-plan".tasks[?type==\'action\']', input_ap)
 
@@ -92,6 +96,7 @@ def extract_ap_tasks(input_ap: dict, input_ssp: dict) -> List[ApTask]:
         resource = extract_ap_resource(input_ap, link_uuid)
 
         associated_control = extract_associated_control(input_ap, raw_task['associated-activities'][0]['activity-uuid'])
+        associated_control_objective_selections = extract_associated_control_objective_selections(input_ap, raw_task['associated-activities'][0]['activity-uuid'])
         params = ssp_params.get(associated_control, {})
 
         props = {
@@ -106,6 +111,7 @@ def extract_ap_tasks(input_ap: dict, input_ssp: dict) -> List[ApTask]:
             resource=resource,
             params=params,
             associated_control=associated_control,
+            associated_control_objective_selections=associated_control_objective_selections,
             props=props
         ))
 
