@@ -138,11 +138,11 @@ jobs:
             const fs = require('fs');
             const YAML = require('yaml');
 
-            const raw_sar = fs.readFileSync('.oscal/assessment-results.yaml', 'utf8');
+            const raw_sar = fs.readFileSync('.oscal/assessment-results.yaml', 'utf8').toString();
             const sar = YAML.parse(raw_sar);
 
             const body = `Findings:
-            
+
             \`\`\`yaml
             ${YAML.stringify(sar)}
             \`\`\`
