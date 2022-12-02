@@ -16,20 +16,23 @@ jobs:
         with:
           python-version: '3.10'
           cache: pip
-      - uses: actions/setup-node@v3
-        with:
-          node-version: 18
-          cache: npm
-      - name: Install app dependencies
-        run: pip install -r requirements.txt; npm ci
-      - name: Start application container
-        run: docker-compose up -d
-      - name: Run Cypress tests
-        run: npm run test
+      # - uses: actions/setup-node@v3
+      #   with:
+      #     node-version: 18
+      #     cache: npm
+      - name: Install python dependencies
+        run: pip install -r requirements.txt
+      # Disable for now to save some time
+      # - name: Install node dependencies
+      #   run: npm ci
+      # - name: Start application container
+      #   run: docker-compose up -d
+      # - name: Run Cypress tests
+      #   run: npm run test
       - name: Run Python tests
         run: pytest
-      - name: Shut down application container
-        run: docker-compose down
+      # - name: Shut down application container
+      #   run: docker-compose down
 
   # Validate the current state of the OSCAL content before moving on to the assess stage
   oscal_validate:
@@ -97,6 +100,8 @@ jobs:
       - application_test
     steps:
       - uses: actions/checkout@v3
+      - name: Start application container
+        run: docker-compose up -d
       - uses: actions/setup-python@v4
         with:
           python-version: '3.10'
@@ -107,10 +112,8 @@ jobs:
           cache: npm
       - name: Install app dependencies
         run: pip install -r requirements.txt; npm ci
-      - name: Start application container
-        run: docker-compose up -d
       - name: Sleep for a bit
-        run: sleep 12
+        run: sleep 3
       - name: Assess the system
         id: assess
         uses: ./.github/actions/oscal-assess
