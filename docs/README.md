@@ -10,7 +10,7 @@
 
 ![General Concept](diagrams/Concept.drawio.svg)
 
-```mermaidjs
+```mermaid
     graph TD
         A(Developer) -->|Makes Commit| B(GitHub)
         B --> C(GitHub Workflow)
