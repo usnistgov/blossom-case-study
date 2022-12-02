@@ -23,18 +23,3 @@ assessment-results:
 {{ ap_reviewed_controls | to_yaml | indent(8, first=True) }}
 {{ ar_observations | to_yaml | indent(6, first=True) }}
 {{ ar_findings | to_yaml | indent(6, first=True) }}
-      findings1:
-        - uuid: ffeecf55-2d51-448c-921d-3cdb6590311a
-          title: Findings from Automated Assessment Workflow
-          description: >
-            TBD
-          target:
-            type: objective-id
-            target-id: ac-8_obj.a.1
-            title: Finding for NIST SP 800-53A Assessment Objective ac-8_obj.a.1
-            status:
-              state: not-satisfied
-              reason: fail
-          related-observations:
-            - observation-uuid: 0a1f398c-bd52-42c5-8621-0e145ba2e82e
-

@@ -154,10 +154,10 @@ def tasks_results_to_observations(tasks_results: List[ApTaskResult], current_tim
         observation_uuid = str(uuid4())
         raw_data['observations'].append({
             'uuid': observation_uuid,
-            'method': method,
+            'methods': [method],
             'title': task.title if task.title else f"OSCAL Assessment Workflow Observation {observation_uuid}",
             'description': task.description if task.description else 'No description provided',
-            'relevant_evidence': [
+            'relevant-evidence': [
                 {
                     'href': 'https://example.com/path/to/scan',
                     'description': 'This observation is the result of automated testing in a run of a GitHub Actions workflow. For detailed information, please review the run status and detailed logging from its configuration, step inputs, and step outputs.'
