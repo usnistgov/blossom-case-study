@@ -112,7 +112,6 @@ jobs:
           cache: npm
       - name: Install app dependencies
         run: pip install -r requirements.txt; npm ci
-      - run: npm i yaml
       # - name: Sleep for a bit
       #   run: sleep 3
       - name: Assess the system
@@ -139,8 +138,8 @@ jobs:
             const fs = require('fs');
             const YAML = require('yaml');
 
-            const raw_sar = fs.readFileSync('.oscal/assessment-results.yaml');
-            const sar = YAML.parse(raw_sar)
+            const raw_sar = fs.readFileSync('.oscal/assessment-results.yaml', 'utf8');
+            const sar = YAML.parse(raw_sar);
 
             const body = `Findings:
             
