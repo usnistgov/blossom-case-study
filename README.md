@@ -10,8 +10,7 @@ Through this project, we intend to help take the first steps with OSCAL and inte
 
 > oscal@nist.gov
 ### National Institute of Standards and Technology
-Information Technology Lab
-Computer Security Division
+Information Technology Lab, Computer Security Division
 
 - Nikita Wootten
 - Alexander Stein
