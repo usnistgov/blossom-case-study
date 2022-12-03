@@ -5,34 +5,34 @@
 
 ## Project Structure
 
+### .github/
+
+This directory contains the overall CI workflow for GitHub Actions, as well as the custom GitHub Actions to interpret OSCAL content.
+
+### app/
+
+This directory contains the target application to be tested and assessed.  This would typically be the application being developed.
+
+### tests/
+
+This directory contains test that would be a part of the standard unit/regression tests for the application being developed.
+
+### cypress/
+
+This directory contains user acceptance tests, which could also include testing of controls.  Cypress can produce evidence through screenshots and videos to demonstrate more complex use case scenarios for one or more controls.
+
+### .oscal/
+
+This directory contains OSCAL model files.
+
+### assessments/
+
+This directory contains security control test script that are executed as a part of the assessment action in the workflow.
 
 ## Implemented Workflow
 
 ![General Concept](diagrams/Concept.drawio.svg)
 
-```mermaid
-    graph TD
-        A(Developer) -->|Makes Commit| B(GitHub)
-        B --> C(GitHub Workflow)
-        C --> D(Application Unit Testing)
-        D --> E(OSCAL Model Validation)
-        E --> F(Execute Profile Resolution)
-        F --> G(Output: OSCAL Catalog)
-    
-    classDef step fill:#FFCE9F,stroke:#FF8000,stroke-width:3px;
-    classDef execution fill:#FFCCCC,stroke:#990000,stroke-width:3px;
-    classDef file fill:#B0E3E6,stroke:#0E8088,stroke-width:3px;
-    classDef output fill:#B9E0A5,stroke:#006600,stroke-width:3px;
-    classDef highlight fill:#E1D5E7,stroke:#9673A6,stroke-width:3px;
-
-    class A step
-    class B execution
-    class C output
-    class D file
-    class E file
-    class F file
-    class G highlight
-```
 
 ## Feedback and Contributions
 
