@@ -143,25 +143,32 @@ jobs:
 
             const body = `# ${sar['assessment-results']['metadata']['title']}
 
+            let totalFindings = 0;
+
             ${sar['assessment-results']['results'].map((result) => {
-                const rows = result['findings'].map((finding) => {
-                    const obsUuid = finding['related-observations'][0]['observation-uuid'];
-                    const observation = result['observations'].find((observation) => observation['uuid'] === obsUuid)
+              const rows = result['findings'].map((finding) => {
+                totalFindings += 1;
+                const obsUuid = finding['related-observations'][0]['observation-uuid'];
+                const observation = result['observations'].find((observation) => observation['uuid'] === obsUuid)
 
-                    const obsTitle = observation['title'];
-                    const target = finding['target']['target-id'];
-                    const statusCol = `${finding['target']['status']['state'] === 'satisfied' ? '✅' : '❌'} (reason: ${finding['target']['status']['reason']})`;
+                const obsTitle = observation['title'];
+                const target = finding['target']['target-id'];
+                const statusCol = `${finding['target']['status']['state'] === 'satisfied' ? '✅' : '❌'} (reason: ${finding['target']['status']['reason']})`;
 
-                    return `| ${obsTitle} | ${target} | ${statusCol} |`;
-                });
-                return `## ${result['title']}
+                return `| ${obsTitle} | ${target} | ${statusCol} |`;
+              });
+              return `## ${result['title']}
 
-            | Observation Title | Target | Status |
-            | ----------------- | ------ | ------ |
-            ${rows.join('\n')}`;
+              | Observation Title | Target | Status |
+              | ----------------- | ------ | ------ |
+              ${rows.join('\n')}`;
             }).join('\n')}
-            
+
             *For more details, check the artifacts for this commit for an assessment results document.*`;
+
+            if (totalFindings === 0) {
+              return;
+            }
 
             return await github.rest.repos.createCommitComment({
               body,

@@ -18,6 +18,7 @@ runs:
           $GITHUB_ACTION_PATH/assess.py
       shell: bash
     - uses: actions/upload-artifact@v3
+      if: success() || failure()
       with:
         name: assessment-results
         path: ${{ inputs.assessment_results_path }}
