@@ -26,6 +26,7 @@ class ApTaskResult(NamedTuple):
     result: bool
 
 class AssessmentWorkflowContext(NamedTuple):
+    relevant_evidence_href: str
     ap: dict
     ap_path: Union[str, bytes, Path, PathLike]
     ar_path: Union[str, bytes, Path, PathLike]
@@ -40,6 +41,8 @@ def create_context() -> AssessmentWorkflowContext:
     """Create execution context for runtime requirements of workflow.
     """
     try:
+        github_href = f"{environ.get('GITHUB_SERVER_URL', '')}/{environ.get('GITHUB_REPOSITORY', '')}/actions/runs/{environ.get('GITHUB_RUN_ID', '')}"
+        relevant_evidence_href = github_href if github_href != '//actions/runs/' else f"file://{SCRIPT_DIR}"
         ap_path = Path(environ.get('INPUT_ASSESSMENT_PLAN_PATH', 'nopath')) if Path(environ.get('INPUT_ASSESSMENT_PLAN_PATH', 'nopath')).exists() else None
         ar_path = Path(environ.get('INPUT_ASSESSMENT_RESULTS_PATH', 'nopath')) if Path(environ.get('INPUT_ASSESSMENT_RESULTS_PATH', 'nopath')).parent.exists() else None
         ar_template_path =  Path(ASSESSMENT_RESULT_TEMPLATE) if (Path(ASSESSMENT_RESULT_TEMPLATE).exists()) else None
@@ -69,6 +72,7 @@ def create_context() -> AssessmentWorkflowContext:
         ar_renderer.filters['to_yaml'] = jinja2_yaml_filter
 
         context = AssessmentWorkflowContext(
+            relevant_evidence_href,
             ap, ap_path, 
             ar_path, ar_template_path, ar_template_file,
             ssp, ssp_path, 
@@ -142,7 +146,7 @@ def run_task(task: ApTask):
         logger.error(f"Running task with uuid {task.uuid} failed")
         raise err
 
-def tasks_results_to_observations(tasks_results: List[ApTaskResult], current_timestamp: str) -> dict:
+def tasks_results_to_observations(tasks_results: List[ApTaskResult], relevant_evidence_href: str, current_timestamp: str) -> dict:
     """Cross reference an Assessment Plan's activities, its tasks, their
     results and generate a dictionary of observation to be inserted in the
     Assessment Results template.
@@ -167,12 +171,12 @@ def tasks_results_to_observations(tasks_results: List[ApTaskResult], current_tim
                 {
                     'name': 'assessment-plan-task-result',
                     'ns': 'https://www.nist.gov/itl/csd/ssag/blossom',
-                    'value': str(tr.result) if tr.result else 'False'
+                    'value': 'success' if tr.result else 'failed'
                 }
             ],
             'relevant-evidence': [
                 {
-                    'href': 'https://example.com/path/to/scan',
+                    'href': relevant_evidence_href,
                     'description': 'This observation is the result of automated testing in a run of a GitHub Actions workflow. For detailed information, please review the run status and detailed logging from its configuration, step inputs, and step outputs.'
                 }
             ],
@@ -194,8 +198,8 @@ def observations_to_findings(tasks_results: List[ApTaskResult], observations: Li
                 logger.warn(f"Observation missed required assessment-plan-task-uuid and/or assesssment-plan-task-result props, skipping")
                 continue
         
-            if task_result != 'False':
-                logger.debug(f"Task result for {task_uuid} for observation did not return false result, skipping")
+            if task_result != 'failed':
+                logger.debug(f"Task result for {task_uuid} for observation did not return 'failed' result, skipping")
                 continue
 
             task = [tr.task for tr in tasks_results if tr.task and tr.task.uuid == task_uuid][0]
@@ -239,7 +243,7 @@ def create_ar(context: AssessmentWorkflowContext):
     try:
         current_timestamp = datetime.now(timezone.utc).isoformat()
         ap_reviewed_controls = extract_reviewed_controls(context.ap)
-        ar_observations = tasks_results_to_observations(context.tasks_results, current_timestamp)
+        ar_observations = tasks_results_to_observations(context.tasks_results, context.relevant_evidence_href, current_timestamp)
         ar_findings = observations_to_findings(context.tasks_results, ar_observations.get('observations', {}))
 
         with open(context.ar_path, 'w') as fh:
