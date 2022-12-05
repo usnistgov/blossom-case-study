@@ -141,11 +141,15 @@ jobs:
             const raw_sar = fs.readFileSync('.oscal/assessment-results.yaml', 'utf8').toString();
             const sar = YAML.parse(raw_sar);
 
-            const body = `# ${sar['assessment-results']['metadata']['title']}
-
             let totalFindings = 0;
 
+            const body = `# ${sar['assessment-results']['metadata']['title']}
+
             ${sar['assessment-results']['results'].map((result) => {
+              if (!result['findings']) {
+                return;
+              }
+
               const rows = result['findings'].map((finding) => {
                 totalFindings += 1;
                 const obsUuid = finding['related-observations'][0]['observation-uuid'];
