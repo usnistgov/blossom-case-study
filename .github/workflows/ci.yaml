@@ -130,7 +130,7 @@ jobs:
           file_path: .oscal/assessment-results.yaml
       - name: Comment findings
         id: comment-step
-        if: ${{ steps.validate-assessment-results.conclusion == 'success' }} && (success() || failure())
+        if: success() || failure()
         uses: actions/github-script@v6
         with:
           github-token: ${{secrets.GITHUB_TOKEN}}
