@@ -6,6 +6,7 @@ import logging
 from os import environ, path, PathLike
 from pathlib import Path
 import subprocess
+from sys import exit
 from typing import Dict, List, NamedTuple, Union
 from uuid import uuid4
 from yaml import safe_dump, safe_load
@@ -274,6 +275,13 @@ def handler():
         logger.debug('Generating assessment results from template and saving file')
         create_ar(context)
         logger.info(f'OSCAL Assessment Workflow ended')
+
+        if not all([tr.result for tr in context.tasks_results]):
+            logger.error(f"One or more automated tests failed, failing GitHub CI run")
+            return exit(1)
+
+        return exit(0)
+
     except Exception as err:
         logger.error('Runtime error in handler, exception below')
         logger.exception(err)
