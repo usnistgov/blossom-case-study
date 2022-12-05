@@ -15,19 +15,24 @@ jobs:
       - uses: actions/setup-python@v4
         with:
           python-version: '3.10'
-      - uses: actions/setup-node@v3
-        with:
-          node-version: 18
-      - name: Install app dependencies
-        run: pip install -r requirements.txt; npm ci
-      - name: Start application container
-        run: docker-compose up -d
-      - name: Run Cypress tests
-        run: npm run test
+          cache: pip
+      # - uses: actions/setup-node@v3
+      #   with:
+      #     node-version: 18
+      #     cache: npm
+      - name: Install python dependencies
+        run: pip install -r requirements.txt
+      # Disable for now to save some time
+      # - name: Install node dependencies
+      #   run: npm ci
+      # - name: Start application container
+      #   run: docker-compose up -d
+      # - name: Run Cypress tests
+      #   run: npm run test
       - name: Run Python tests
         run: pytest
-      - name: Shut down application container
-        run: docker-compose down
+      # - name: Shut down application container
+      #   run: docker-compose down
 
   # Validate the current state of the OSCAL content before moving on to the assess stage
   oscal_validate:
@@ -95,17 +100,85 @@ jobs:
       - application_test
     steps:
       - uses: actions/checkout@v3
+      - name: Start application container
+        run: docker-compose up -d
       - uses: actions/setup-python@v4
         with:
           python-version: '3.10'
+          cache: pip
       - uses: actions/setup-node@v3
         with:
           node-version: 18
+          cache: npm
       - name: Install app dependencies
         run: pip install -r requirements.txt; npm ci
-      - name: Start application container
-        run: docker-compose up -d
-      # TODO: execute assess action
-      # TODO: create comment/artifact
+      # - name: Sleep for a bit
+      #   run: sleep 3
+      - name: Assess the system
+        id: assess
+        uses: ./.github/actions/oscal-assess
+        with:
+          assessment_plan_path: .oscal/assessment-plan.yaml
+          assessment_results_path: .oscal/assessment-results.yaml
+      - name: Validate the generated assessment results
+        id: validate-assessment-results
+        # run even if the assessment fails
+        if: success() || failure()
+        uses: ./.github/actions/oscal-validation
+        with:
+          model_type: ar
+          file_path: .oscal/assessment-results.yaml
+      - name: Comment findings
+        id: comment-step
+        if: success() || failure()
+        uses: actions/github-script@v6
+        with:
+          github-token: ${{secrets.GITHUB_TOKEN}}
+          script: |
+            const fs = require('fs');
+            const YAML = require('yaml');
+
+            const raw_sar = fs.readFileSync('.oscal/assessment-results.yaml', 'utf8').toString();
+            const sar = YAML.parse(raw_sar);
+
+            let totalFindings = 0;
+
+            const body = `# ${sar['assessment-results']['metadata']['title']}
+
+            ${sar['assessment-results']['results'].map((result) => {
+              if (!result['findings']) {
+                return;
+              }
+
+              const rows = result['findings'].map((finding) => {
+                totalFindings += 1;
+                const obsUuid = finding['related-observations'][0]['observation-uuid'];
+                const observation = result['observations'].find((observation) => observation['uuid'] === obsUuid)
+
+                const obsTitle = observation['title'];
+                const target = finding['target']['target-id'];
+                const statusCol = `${finding['target']['status']['state'] === 'satisfied' ? '✅' : '❌'} (reason: ${finding['target']['status']['reason']})`;
+
+                return `| ${obsTitle} | ${target} | ${statusCol} |`;
+              });
+              return `## ${result['title']}
+
+              | Observation Title | Target | Status |
+              | ----------------- | ------ | ------ |
+              ${rows.join('\n')}`;
+            }).join('\n')}
+
+            *For more details, check the artifacts for this commit for an assessment results document.*`;
+
+            if (totalFindings === 0) {
+              return;
+            }
+
+            return await github.rest.repos.createCommitComment({
+              body,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              commit_sha: '${{ github.event.pull_request.head.sha }}'
+            });
       - name: Shut down application container
         run: docker-compose down

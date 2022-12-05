@@ -14,5 +14,8 @@
     "name": "BloSS@M",
     "email": "blossom@nist.gov"
   },
-  "license": "NIST-PD-Fallback"
+  "license": "NIST-PD-Fallback",
+  "dependencies": {
+    "yaml": "^2.1.3"
+  }
 }

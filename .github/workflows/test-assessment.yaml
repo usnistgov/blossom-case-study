@@ -1,0 +1,25 @@
+name: Test Assessment Action
+on:
+  push:
+    branches:
+      - main
+      - develop
+    paths:
+      - .github/actions/oscal-assess/**
+  pull_request:
+    paths:
+      - .github/actions/oscal-assess/**
+jobs:
+  action_test:
+    runs-on: ubuntu-22.04
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-python@v4
+        with:
+          python-version: '3.10'
+      - name: Install action dependencies
+        run: pip install -r requirements.txt
+        working-directory: .github/actions/oscal-assess
+      - name: Run Python tests
+        run: pytest
+        working-directory: .github/actions/oscal-assess

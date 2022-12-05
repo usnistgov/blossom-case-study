@@ -9,19 +9,41 @@ assessment-plan:
   
   import-ssp:
     href: ./ssp.yaml
-  
+
+  local-definitions:
+    activities:
+      - uuid: d85636e6-0d9d-4c94-a924-5a612a119040
+        title: Automated Tests of Application Configuration
+        description: A description of automated testing.
+        props:
+          - name: method
+            value: TEST 
+        related-controls:
+          description: >
+            This automated testing evaluates system notification banner implementations in different layers of the system.
+          control-selections:
+            - include-controls:
+              - control-id: ac-8
+          control-objective-selections:
+            - include-objectives:
+              - objective-id: ac-8_obj.a.1
+
+  assessment-subjects:
+    - type: component
+      description: >
+        The assessment subject is the 'this-system' component representing the sample application.
+      include-all: {}
+
   reviewed-controls:
     control-selections:
       - include-controls:
           - control-id: ac-8
     control-objective-selections:
       - include-objectives:
-          - objective-id: ac-8.a_obj
-          - objective-id: ac-8.a_obj.1
-          - objective-id: ac-8.a_obj.2
-          - objective-id: ac-8.a_obj.3
-          - objective-id: ac-8.a_obj.4
-          - objective-id: ac-8_obj.b
+          - objective-id: ac-8_obj.a.1
+          - objective-id: ac-8_obj.a.2
+          - objective-id: ac-8_obj.a.3
+          - objective-id: ac-8_obj.a.4
     remarks: Control objective selections are declared separately of the include-controls directive, must be explicit here.
 
   tasks:
@@ -29,6 +51,11 @@ assessment-plan:
       title: Validate System Use Notification Presence from Python Script
       description: Check system use notification presence.
       type: action
+      associated-activities:
+        - activity-uuid: d85636e6-0d9d-4c94-a924-5a612a119040
+          subjects:
+            - type: component
+              include-all: {}
       props:
         - name: ar-check-method
           ns: https://www.nist.gov/itl/csd/ssag/blossom
@@ -46,7 +73,7 @@ assessment-plan:
         title: AC-8 In-App
         description: Test the satisfaction of AC-8 by mocking the fastAPI server
         rlinks:
-          - href: assessments/ac_8_inapp.py
+          - href: assessments/ac_8.py
             media-type: text/plain
             hashes:
               - algorithm: SHA-256
