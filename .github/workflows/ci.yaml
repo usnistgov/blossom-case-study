@@ -141,12 +141,25 @@ jobs:
             const raw_sar = fs.readFileSync('.oscal/assessment-results.yaml', 'utf8').toString();
             const sar = YAML.parse(raw_sar);
 
-            const body = `Findings:
+            const body = `# ${sar['assessment-results']['metadata']['title']}
 
-            \`\`\`yaml
-            ${YAML.stringify(sar)}
-            \`\`\`
-            `;
+            ${sar['assessment-results']['results'].map((result) => {
+                const rows = result['findings'].map((finding) => {
+                    const obsUuid = finding['related-observations'][0]['observation-uuid'];
+                    const observation = result['observations'].find((observation) => observation['uuid'] === obsUuid)
+
+                    const obsTitle = observation['title'];
+                    const target = finding['target']['target-id'];
+                    const statusCol = `${finding['target']['status']['state'] === 'satisfied' ? '✅' : '❌'} (reason: ${finding['target']['status']['reason']})`;
+
+                    return `| ${obsTitle} | ${target} | ${statusCol} |`;
+                });
+                return `## ${result['title']}
+
+            | Observation Title | Target | Status |
+            | ----------------- | ------ | ------ |
+            ${rows.join('\n')}`;
+            }).join('\n')}`;
 
             return await github.rest.repos.createCommitComment({
               body,
