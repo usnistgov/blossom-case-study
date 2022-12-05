@@ -19,7 +19,7 @@ This directory contains the target application to be tested and assessed.  This 
 
 ### assessments/
 
-This directory contains security control test script that are executed as a part of the assessment action in the workflow.
+This directory contains test script(s) for security control objectives that are automatable. In this project, they are executed as a part of [the assessment action, `oscal-assess`](.github/actions/oscal-assess) in the workflow.
 
 
 ### cypress/
