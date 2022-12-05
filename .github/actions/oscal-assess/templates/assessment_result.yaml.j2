@@ -10,14 +10,14 @@ assessment-results:
   import-ap:
     href: {{ ar_import_ap_href }}
 
-  # TODO: stuff this later
   local-definitions: {}
 
   results:
     - uuid: c28da807-9964-4532-82be-42ea1887373c
       title: Assessment Results for Testing of SYSTEM
       description: >
-        TBD
+        These assessment results in OSCAL format are generated automatically
+        from an assessment plan in OSCAL format and processed in GitHub Actions.
       start: {{ ar_results_start_timestamp }}
       reviewed-controls:
 {{ ap_reviewed_controls | to_yaml | indent(8, first=True) }}

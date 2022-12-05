@@ -25,7 +25,8 @@ assessment-plan:
             - include-controls:
               - control-id: ac-8
           control-objective-selections:
-            - include-all: {}
+            - include-objectives:
+              - objective-id: ac-8_obj.a.1
 
   assessment-subjects:
     - type: component

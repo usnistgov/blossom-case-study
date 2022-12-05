@@ -157,6 +157,18 @@ def tasks_results_to_observations(tasks_results: List[ApTaskResult], current_tim
             'methods': [method],
             'title': task.title if task.title else f"OSCAL Assessment Workflow Observation {observation_uuid}",
             'description': task.description if task.description else 'No description provided',
+            'props': [
+                {
+                    'name': 'assessment-plan-task-uuid',
+                    'ns': 'https://www.nist.gov/itl/csd/ssag/blossom',
+                    'value': task.uuid
+                },
+                {
+                    'name': 'assessment-plan-task-result',
+                    'ns': 'https://www.nist.gov/itl/csd/ssag/blossom',
+                    'value': str(tr.result) if tr.result else 'False'
+                }
+            ],
             'relevant-evidence': [
                 {
                     'href': 'https://example.com/path/to/scan',
@@ -169,28 +181,52 @@ def tasks_results_to_observations(tasks_results: List[ApTaskResult], current_tim
     logger.debug(f"{len(raw_data.get('observations', {}))} observation(s) processed")
     return raw_data
 
-def observations_to_findings(tasks_results: List[ApTaskResult], observations: List[dict], current_timestamp: str) -> dict:
+def observations_to_findings(tasks_results: List[ApTaskResult], observations: List[dict]) -> dict:
     raw_data = {'findings': []}
 
     for o in observations:
-        finding_uuid = str(uuid4())
-        raw_data['findings'].append({
-            'uuid': finding_uuid,
-            'title': f"Finding from Observation {o.get('uuid', 'ENOUUID')}",
-            'description': 'TBD',
-            'target': {
-                'type': 'objective-id',
-                'target-id': 'ac-8_obj.a.1',
-                'title': 'Target Title',
-                'status': {
-                    'state': 'not-satisfied',
-                    'reason': 'failed'
-                }
-            },
-            'related-observations': [
-                {'observation-uuid': o.get('uuid', 'ENOUUID')}
-            ]
-        })
+        try:
+            task_uuid = [prop for prop in o.get('props') if prop.get('name') == 'assessment-plan-task-uuid' and prop.get('ns') == 'https://www.nist.gov/itl/csd/ssag/blossom'][0].get('value')
+            task_result = [prop for prop in o.get('props') if prop.get('name') == 'assessment-plan-task-result' and prop.get('ns') == 'https://www.nist.gov/itl/csd/ssag/blossom'][0].get('value')
+
+            if not task_uuid or not task_result:
+                logger.warn(f"Observation missed required assessment-plan-task-uuid and/or assesssment-plan-task-result props, skipping")
+                continue
+        
+            if task_result != 'False':
+                logger.debug(f"Task result for {task_uuid} for observation did not return false result, skipping")
+                continue
+
+            task = [tr.task for tr in tasks_results if tr.task and tr.task.uuid == task_uuid][0]
+
+            objectives_count = len(task.associated_control_objective_selections)
+            target_id = task.associated_control_objective_selections[0]
+
+            if objectives_count > 1:
+                logger.warn(f"Findings target one objective control selection, not multiple, selecting only {target_id}")
+            
+            finding_uuid = str(uuid4())
+            raw_data['findings'].append({
+                'uuid': finding_uuid,
+                'title': f"Finding from Observation {o.get('uuid', 'ENOUUID')}",
+                'description': task.description,
+                'target': {
+                    'type': 'objective-id',
+                    'target-id': target_id,
+                    'title': task.title,
+                    'status': {
+                        'state': 'not-satisfied',
+                        'reason': 'failed'
+                    }
+                },
+                'related-observations': [
+                    {'observation-uuid': o.get('uuid', 'ENOUUID')}
+                ]
+            })
+
+        except Exception as err:
+            logger.error(f"Error in processing an observation, moving to next if found")
+            logger.exception(err)
 
     logger.debug(f"{len(raw_data.get('findings', {}))} finding(s) processed from {len(observations)} observation(s).")
     return raw_data
@@ -203,7 +239,7 @@ def create_ar(context: AssessmentWorkflowContext):
         current_timestamp = datetime.now(timezone.utc).isoformat()
         ap_reviewed_controls = extract_reviewed_controls(context.ap)
         ar_observations = tasks_results_to_observations(context.tasks_results, current_timestamp)
-        ar_findings = observations_to_findings(context.tasks_results, ar_observations.get('observations', {}), current_timestamp)
+        ar_findings = observations_to_findings(context.tasks_results, ar_observations.get('observations', {}))
 
         with open(context.ar_path, 'w') as fh:
             template = context.ar_renderer.get_template(context.ar_template_file)
