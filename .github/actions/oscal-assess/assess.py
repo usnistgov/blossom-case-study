@@ -3,7 +3,7 @@
 from datetime import datetime, timezone
 from jinja2 import Environment, FileSystemLoader, select_autoescape
 import logging
-from os import environ, path, PathLike
+from os import environ, getenv, path, PathLike
 from pathlib import Path
 import subprocess
 from sys import exit
@@ -15,7 +15,13 @@ from content import ApTask, extract_ap_tasks, extract_import_ssp, extract_review
 
 logging.basicConfig()
 logger = logging.getLogger('oscal_assess')
-logger.setLevel(getattr(logging, str(environ.get('OSCAL_ASSESS_LOGLEVEL', 'DEBUG')).upper()))
+
+DEBUG_LOGGING = int(getenv('RUNNER_DEBUG', 0))
+
+if DEBUG_LOGGING == 1: 
+    logger.setLevel(logging.DEBUG)
+else:
+    logger.setLevel(logging.INFO)
 
 SCRIPT_DIR = path.dirname(path.realpath(__file__))
 TEMPLATES_DIR = f"{SCRIPT_DIR}/templates"
@@ -41,10 +47,10 @@ def create_context() -> AssessmentWorkflowContext:
     """Create execution context for runtime requirements of workflow.
     """
     try:
-        github_href = f"{environ.get('GITHUB_SERVER_URL', '')}/{environ.get('GITHUB_REPOSITORY', '')}/actions/runs/{environ.get('GITHUB_RUN_ID', '')}"
+        github_href = f"{getenv('GITHUB_SERVER_URL', '')}/{getenv('GITHUB_REPOSITORY', '')}/actions/runs/{getenv('GITHUB_RUN_ID', '')}"
         relevant_evidence_href = github_href if github_href != '//actions/runs/' else f"file://{SCRIPT_DIR}"
-        ap_path = Path(environ.get('INPUT_ASSESSMENT_PLAN_PATH', 'nopath')) if Path(environ.get('INPUT_ASSESSMENT_PLAN_PATH', 'nopath')).exists() else None
-        ar_path = Path(environ.get('INPUT_ASSESSMENT_RESULTS_PATH', 'nopath')) if Path(environ.get('INPUT_ASSESSMENT_RESULTS_PATH', 'nopath')).parent.exists() else None
+        ap_path = Path(getenv('INPUT_ASSESSMENT_PLAN_PATH', 'nopath')) if Path(getenv('INPUT_ASSESSMENT_PLAN_PATH', 'nopath')).exists() else None
+        ar_path = Path(getenv('INPUT_ASSESSMENT_RESULTS_PATH', 'nopath')) if Path(getenv('INPUT_ASSESSMENT_RESULTS_PATH', 'nopath')).parent.exists() else None
         ar_template_path =  Path(ASSESSMENT_RESULT_TEMPLATE) if (Path(ASSESSMENT_RESULT_TEMPLATE).exists()) else None
         ar_template_file = ar_template_path.name
 
