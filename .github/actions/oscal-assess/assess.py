@@ -253,7 +253,10 @@ def create_ar(context: AssessmentWorkflowContext):
                 'ar_results_start_timestamp': current_timestamp,
                 'ar_results_start_timestamp': current_timestamp,
                 'ar_observations': ar_observations,
-                'ar_findings': ar_findings
+                # In OSCAL AR instances, we cannot have an empty findings: []
+                # so we must trigger the template to insert a findings var at
+                # at all for schema and constraint validation with oscal-cli.
+                'ar_findings': ar_findings if len(ar_findings.get('findings')) > 0 else None
             })
             logger.debug(f"Writing rendered assessment result to {context.ar_path}")
             fh.write(ar)

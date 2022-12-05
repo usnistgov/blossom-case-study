@@ -22,4 +22,6 @@ assessment-results:
       reviewed-controls:
 {{ ap_reviewed_controls | to_yaml | indent(8, first=True) }}
 {{ ar_observations | to_yaml | indent(6, first=True) }}
+{%if ar_findings %}
 {{ ar_findings | to_yaml | indent(6, first=True) }}
+{% endif %}
