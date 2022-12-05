@@ -19,6 +19,6 @@ soup = BeautifulSoup(response, 'html.parser')
 
 # Drill into the element that the system use notification text lives
 raw_use_notification = soup.body.div.p.text
-clean_use_notification = textwrap.dedent(raw_use_notification).strip()
+clean_use_notification = textwrap.dedent(raw_use_notification).strip().replace('\n', ' ')
 
 assert clean_use_notification == expected_use_notification
