@@ -104,12 +104,12 @@ def process_ap(context):
     for idx, t in enumerate(tasks):
         try:
             logger.debug(f"Running task {idx+1}/{tasks_count}")
-            task_result = ApTaskResult
+            task_result = run_task(t)
             context.tasks_results.append(ApTaskResult(t,task_result if type(task_result) == bool else False))
 
         except Exception as err:
             logger.exception(err)
-            logger.err(f"Running task {idx+1} failed, continuing to next task if any")
+            logger.error(f"Running task {idx+1} failed, continuing to next task if any")
             continue
 
 def run_task(task: ApTask):
@@ -129,8 +129,8 @@ def run_task(task: ApTask):
             return False
 
         env = environ.copy()
-        for raw_param, value in task.params:
-            param = 'SSP_PARAM_' + raw_param.capitalize().replace('-', '_')
+        for raw_param, value in task.params.items():
+            param = 'SSP_PARAM_' + raw_param.upper().replace('-', '_')
             env[param] = value
 
         task_res_path = Path(task.resource.file)
