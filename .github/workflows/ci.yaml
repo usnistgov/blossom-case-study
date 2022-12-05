@@ -159,7 +159,9 @@ jobs:
             | Observation Title | Target | Status |
             | ----------------- | ------ | ------ |
             ${rows.join('\n')}`;
-            }).join('\n')}`;
+            }).join('\n')}
+            
+            *For more details, check the artifacts for this commit for an assessment results document.*`;
 
             return await github.rest.repos.createCommitComment({
               body,

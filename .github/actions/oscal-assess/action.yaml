@@ -17,3 +17,7 @@ runs:
         INPUT_ASSESSMENT_RESULTS_PATH=${{ inputs.assessment_results_path }} \
           $GITHUB_ACTION_PATH/assess.py
       shell: bash
+    - uses: actions/upload-artifact@v3
+      with:
+        name: assessment-results
+        path: ${{ inputs.assessment_results_path }}
