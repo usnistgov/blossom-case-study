@@ -1,0 +1,72 @@
+---
+system-security-plan:
+  uuid: f80b8dca-eb68-4efa-b56f-1d7158c78e58
+
+  metadata:
+    title: Leveraging SaaS System Security Plan
+    last-modified: 2022-11-18T00:00:00.0000-04:00
+    version: "0.0.1-alpha"
+    oscal-version: 1.0.4
+    roles:
+      - id: admin
+        title: Administrator
+    parties:
+      - uuid: ae282151-9a3f-4009-a819-1f1b87f8ae66
+        type: person
+  
+  import-profile:
+    href: ./profile.yaml
+  
+  system-characteristics:
+    system-ids:
+      - id: saas_system_iaas_customer
+    system-name: Leveraging SaaS System
+    description: >
+      NO CONTENT HERE FOR NOW
+    security-sensitivity-level: low
+    system-information:
+      information-types:
+        - uuid: 856db9b2-9643-4c21-9b61-f58eea408ea6
+          title: System Assessment
+          description: This system handles development information pertaining to audit and assessment events to demonstrate the OSCAL workflow.
+          categorizations:
+            - system: https://doi.org/10.6028/NIST.SP.800-60v2r1
+              information-type-ids:
+                - C.3.5.1
+          confidentiality-impact:
+            base: fips-199-low
+          integrity-impact:
+            base: fips-199-low
+          availability-impact:
+            base: fips-199-low
+    security-impact-level:
+      security-objective-confidentiality: fips-199-low
+      security-objective-integrity: fips-199-low
+      security-objective-availability: fips-199-low
+    status:
+      state: operational
+    authorization-boundary:
+      description: This system is for demonstration purposes only.
+  
+  system-implementation:
+    users:
+      - uuid: b1720f31-b2d4-41ce-911f-f9c06c392019
+        role-ids:
+          - admin
+        authorized-privileges:
+          - title: Developer
+            functions-performed:
+              - Manages the content and components within the system.
+    components:
+      - uuid: a413cc1e-92dc-494b-b2ed-a8d9610597da
+        type: this-system
+        title: OSCAL Testing Workflow Application
+        description: This is an application to demonstrate minimal OSCAL content, and automation to execute tests against the application.
+        props:
+          - name: implementation-point
+            value: internal
+        status:
+          state: under-development
+
+  control-implementation:
+    description: This system implements a very minimal set of controls for demonstration only.
