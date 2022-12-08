@@ -19,7 +19,7 @@ This repository has branches saved to show the progression of a web application 
 - [`step_3` branch](https://github.com/usnistgov/blossom-case-study/tree/step_3): This branch uses [the information from results a failure in CI workflow run](https://github.com/usnistgov/blossom-case-study/actions/runs/3643649707/jobs/6152082288) to correct errors in the demo app's system security plan in OSCAL YAML form. Below are important files worth noting.
   - [`ssp.yaml`](https://github.com/usnistgov/blossom-case-study/blob/step_3/.oscal/ssp.yaml): A system security plan that has been corrected to included missing data in the security control implementation section
 - [`step_4` branch](https://github.com/usnistgov/blossom-case-study/tree/step_4): This branch uses [the information from results a failure in CI workflow run](https://github.com/usnistgov/blossom-case-study/actions/runs/3643653295/jobs/6152098658) to correct errors in the demo app's configuration based on a failed assessment result (which is [a generated output from the workflow run](https://github.com/usnistgov/blossom-case-study/suites/9734751500/artifacts/467089353) in OSCAL YAML format). Below are important files worth noting.
-  - [`api.py`](https://github.com/usnistgov/blossom-case-study/blob/step_1/app/api.py): An updated version of the web application backend to successfully pass an assessment specified in the assessment plan
+  - [`api.py`](https://github.com/usnistgov/blossom-case-study/blob/step_4/app/api.py): An updated version of the web application backend to successfully pass an assessment specified in the assessment plan
 
 ## Project Structure
 
