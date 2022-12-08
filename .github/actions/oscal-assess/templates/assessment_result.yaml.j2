@@ -1,0 +1,27 @@
+---
+assessment-results:
+  uuid: {{ ar_uuid }}
+  metadata:
+    title: {{ ar_metadata_title }}
+    last-modified: {{ ar_metadata_last_modified_timestamp }}
+    version: 0.0.1-alpha
+    oscal-version: 1.0.4
+
+  import-ap:
+    href: {{ ar_import_ap_href }}
+
+  local-definitions: {}
+
+  results:
+    - uuid: c28da807-9964-4532-82be-42ea1887373c
+      title: Assessment Results for Testing of SYSTEM
+      description: >
+        These assessment results in OSCAL format are generated automatically
+        from an assessment plan in OSCAL format and processed in GitHub Actions.
+      start: {{ ar_results_start_timestamp }}
+      reviewed-controls:
+{{ ap_reviewed_controls | to_yaml | indent(8, first=True) }}
+{{ ar_observations | to_yaml | indent(6, first=True) }}
+{%if ar_findings %}
+{{ ar_findings | to_yaml | indent(6, first=True) }}
+{% endif %}
