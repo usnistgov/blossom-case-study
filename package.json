@@ -16,6 +16,6 @@
   },
   "license": "NIST-PD-Fallback",
   "dependencies": {
-    "yaml": "^2.1.3"
+    "yaml": "^2.8.3"
   }
 }
