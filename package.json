@@ -3,7 +3,7 @@
   "version": "0.0.1",
   "description": "UI Test Scripts",
   "devDependencies": {
-    "cypress": "^10.2.0"
+    "cypress": "^15.16.0"
   },
   "scripts": {
     "test": "cypress run",
