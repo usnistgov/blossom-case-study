@@ -18,7 +18,6 @@ jobs:
         run: pip install -r requirements.txt
       - name: Run Python tests
         run: pytest
-
   # Validate the current state of the OSCAL content before moving on to the assess stage
   oscal_validate:
     runs-on: ubuntu-22.04
