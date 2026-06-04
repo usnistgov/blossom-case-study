@@ -1,0 +1,24 @@
+name: Execute OSCAL Assessment Workflow
+description: Executes assessment workflow with an OSCAL YAML Assessment Plan and generate an OSCAL YAML Assessment Result
+inputs:
+  assessment_plan_path:
+    description: Path to the OSCAL Assessment Plan YAML file exists
+    required: true
+  assessment_results_path:
+    description: Path to the OSCAL Assessment Results YAML file be generated
+    required: true
+runs:
+  using: composite
+  steps:
+    - run: pip install -r ${{ github.action_path }}/requirements.txt
+      shell: bash
+    - run: |
+        INPUT_ASSESSMENT_PLAN_PATH=${{ inputs.assessment_plan_path }} \
+        INPUT_ASSESSMENT_RESULTS_PATH=${{ inputs.assessment_results_path }} \
+          $GITHUB_ACTION_PATH/assess.py
+      shell: bash
+    - uses: actions/upload-artifact@v3
+      if: success() || failure()
+      with:
+        name: assessment-results
+        path: ${{ inputs.assessment_results_path }}

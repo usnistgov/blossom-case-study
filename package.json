@@ -1,0 +1,21 @@
+{
+  "name": "blossom-case-study",
+  "version": "0.0.1",
+  "description": "UI Test Scripts",
+  "devDependencies": {
+    "cypress": "^10.2.0"
+  },
+  "scripts": {
+    "test": "cypress run",
+    "test-install": "cypress install",
+    "cypress:open": "cypress open"
+  },
+  "author": {
+    "name": "BloSS@M",
+    "email": "blossom@nist.gov"
+  },
+  "license": "NIST-PD-Fallback",
+  "dependencies": {
+    "yaml": "^2.1.3"
+  }
+}
