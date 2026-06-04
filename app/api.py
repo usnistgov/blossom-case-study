@@ -23,4 +23,4 @@ else:
 
 @enroller.get("/")
 async def read_root(request: Request):
-    return views.TemplateResponse("warning/non_conforming.html", { "request": request })
+    return views.TemplateResponse("warning/conforming.html", { "request": request })
