@@ -1,0 +1,623 @@
+---
+catalog:
+  uuid: f7b6594d-361c-4ba8-bfe6-4266861b3a87
+  metadata:
+    title: Bloss@m Minimal Baseline for Demonstration
+    last-modified: 2022-11-22T15:46:16.777677Z
+    version: 0.0.1-alpha
+    oscal-version: 1.0.4
+    props:
+    - name: resolution-tool
+      value: libOSCAL-Java
+    links:
+    - href: ./profile.yaml
+      rel: source-profile
+  groups:
+  - id: ac
+    class: family
+    title: Access Control
+    controls:
+    - id: ac-8
+      class: SP800-53
+      title: System Use Notification
+      params:
+      - id: ac-08_odp.01
+        label: system use notification
+        guidelines:
+        - prose: system use notification message or banner to be displayed by the system to users before granting access to the system is defined;
+      - id: ac-08_odp.02
+        label: conditions
+        guidelines:
+        - prose: conditions for system use to be displayed by the system before granting further access are defined;
+      props:
+      - name: label
+        value: AC-8
+      - name: label
+        value: AC-08
+        class: sp800-53a
+      - name: sort-id
+        value: ac-08
+      links:
+      - href: https://raw.githubusercontent.com/usnistgov/oscal-content/ba2efa4c90155650b0fd536f3bffd13042ac6dc7/nist.gov/SP800-53/rev5/yaml/NIST_SP-800-53_rev5_LOW-baseline-resolved-profile_catalog.yaml#ac-14
+        rel: related
+      - href: https://raw.githubusercontent.com/usnistgov/oscal-content/ba2efa4c90155650b0fd536f3bffd13042ac6dc7/nist.gov/SP800-53/rev5/yaml/NIST_SP-800-53_rev5_LOW-baseline-resolved-profile_catalog.yaml#pl-4
+        rel: related
+      - href: https://raw.githubusercontent.com/usnistgov/oscal-content/ba2efa4c90155650b0fd536f3bffd13042ac6dc7/nist.gov/SP800-53/rev5/yaml/NIST_SP-800-53_rev5_LOW-baseline-resolved-profile_catalog.yaml#si-4
+        rel: related
+      parts:
+      - id: ac-8_smt
+        name: statement
+        parts:
+        - id: ac-8_smt.a
+          name: item
+          props:
+          - name: label
+            value: a.
+          prose: "Display {{ insert: param, ac-08_odp.01 }} to users before granting access to the system that provides privacy and security notices consistent with applicable laws, executive orders, directives, regulations, policies, standards, and guidelines and state that:"
+          parts:
+          - id: ac-8_smt.a.1
+            name: item
+            props:
+            - name: label
+              value: "1."
+            prose: Users are accessing a U.S. Government system;
+          - id: ac-8_smt.a.2
+            name: item
+            props:
+            - name: label
+              value: "2."
+            prose: "System usage may be monitored, recorded, and subject to audit;"
+          - id: ac-8_smt.a.3
+            name: item
+            props:
+            - name: label
+              value: "3."
+            prose: Unauthorized use of the system is prohibited and subject to criminal and civil penalties; and
+          - id: ac-8_smt.a.4
+            name: item
+            props:
+            - name: label
+              value: "4."
+            prose: Use of the system indicates consent to monitoring and recording;
+        - id: ac-8_smt.b
+          name: item
+          props:
+          - name: label
+            value: b.
+          prose: Retain the notification message or banner on the screen until users acknowledge the usage conditions and take explicit actions to log on to or further access the system; and
+        - id: ac-8_smt.c
+          name: item
+          props:
+          - name: label
+            value: c.
+          prose: 'For publicly accessible systems:'
+          parts:
+          - id: ac-8_smt.c.1
+            name: item
+            props:
+            - name: label
+              value: "1."
+            prose: "Display system use information {{ insert: param, ac-08_odp.02 }} , before granting further access to the publicly accessible system;"
+          - id: ac-8_smt.c.2
+            name: item
+            props:
+            - name: label
+              value: "2."
+            prose: "Display references, if any, to monitoring, recording, or auditing that are consistent with privacy accommodations for such systems that generally prohibit those activities; and"
+          - id: ac-8_smt.c.3
+            name: item
+            props:
+            - name: label
+              value: "3."
+            prose: Include a description of the authorized uses of the system.
+      - id: ac-8_gdn
+        name: guidance
+        prose: "System use notifications can be implemented using messages or warning banners displayed before individuals log in to systems. System use notifications are used only for access via logon interfaces with human users. Notifications are not required when human interfaces do not exist. Based on an assessment of risk, organizations consider whether or not a secondary system use notification is needed to access applications or other system resources after the initial network logon. Organizations consider system use notification messages or banners displayed in multiple languages based on organizational needs and the demographics of system users. Organizations consult with the privacy office for input regarding privacy messaging and the Office of the General Counsel or organizational equivalent for legal review and approval of warning banner content."
+      - id: ac-8_obj
+        name: assessment-objective
+        props:
+        - name: label
+          value: AC-08
+          class: sp800-53a
+        parts:
+        - id: ac-8_obj.a
+          name: assessment-objective
+          props:
+          - name: label
+            value: AC-08a.
+            class: sp800-53a
+          prose: "{{ insert: param, ac-08_odp.01 }} is displayed to users before granting access to the system that provides privacy and security notices consistent with applicable laws, Executive Orders, directives, regulations, policies, standards, and guidelines;"
+          parts:
+          - id: ac-8_obj.a.1
+            name: assessment-objective
+            props:
+            - name: label
+              value: AC-08a.01
+              class: sp800-53a
+            prose: the system use notification states that users are accessing a U.S. Government system;
+          - id: ac-8_obj.a.2
+            name: assessment-objective
+            props:
+            - name: label
+              value: AC-08a.02
+              class: sp800-53a
+            prose: "the system use notification states that system usage may be monitored, recorded, and subject to audit;"
+          - id: ac-8_obj.a.3
+            name: assessment-objective
+            props:
+            - name: label
+              value: AC-08a.03
+              class: sp800-53a
+            prose: the system use notification states that unauthorized use of the system is prohibited and subject to criminal and civil penalties; and
+          - id: ac-8_obj.a.4
+            name: assessment-objective
+            props:
+            - name: label
+              value: AC-08a.04
+              class: sp800-53a
+            prose: the system use notification states that use of the system indicates consent to monitoring and recording;
+        - id: ac-8_obj.b
+          name: assessment-objective
+          props:
+          - name: label
+            value: AC-08b.
+            class: sp800-53a
+          prose: the notification message or banner is retained on the screen until users acknowledge the usage conditions and take explicit actions to log on to or further access the system;
+        - id: ac-8_obj.c
+          name: assessment-objective
+          props:
+          - name: label
+            value: AC-08c.
+            class: sp800-53a
+          parts:
+          - id: ac-8_obj.c.1
+            name: assessment-objective
+            props:
+            - name: label
+              value: AC-08c.01
+              class: sp800-53a
+            prose: "for publicly accessible systems, system use information {{ insert: param, ac-08_odp.02 }} is displayed before granting further access to the publicly accessible system;"
+          - id: ac-8_obj.c.2
+            name: assessment-objective
+            props:
+            - name: label
+              value: AC-08c.02
+              class: sp800-53a
+            prose: "for publicly accessible systems, any references to monitoring, recording, or auditing that are consistent with privacy accommodations for such systems that generally prohibit those activities are displayed;"
+          - id: ac-8_obj.c.3
+            name: assessment-objective
+            props:
+            - name: label
+              value: AC-08c.03
+              class: sp800-53a
+            prose: "for publicly accessible systems, a description of the authorized uses of the system is included."
+      - id: ac-8_asm-examine
+        name: assessment-method
+        props:
+        - name: method
+          ns: http://csrc.nist.gov/ns/rmf
+          value: EXAMINE
+        - name: label
+          value: AC-08-Examine
+          class: sp800-53a
+        parts:
+        - name: assessment-objects
+          prose: |-
+            Access control policy
+
+            privacy and security policies, procedures addressing system use notification
+
+            documented approval of system use notification messages or banners
+
+            system audit records
+
+            user acknowledgements of notification message or banner
+
+            system design documentation
+
+            system configuration settings and associated documentation
+
+            system use notification messages
+
+            system security plan
+
+            privacy plan
+
+            privacy impact assessment
+
+            privacy assessment report
+
+            other relevant documents or records
+      - id: ac-8_asm-interview
+        name: assessment-method
+        props:
+        - name: method
+          ns: http://csrc.nist.gov/ns/rmf
+          value: INTERVIEW
+        - name: label
+          value: AC-08-Interview
+          class: sp800-53a
+        parts:
+        - name: assessment-objects
+          prose: |-
+            System/network administrators
+
+            organizational personnel with information security and privacy responsibilities
+
+            legal counsel
+
+            system developers
+      - id: ac-8_asm-test
+        name: assessment-method
+        props:
+        - name: method
+          ns: http://csrc.nist.gov/ns/rmf
+          value: TEST
+        - name: label
+          value: AC-08-Test
+          class: sp800-53a
+        parts:
+        - name: assessment-objects
+          prose: Mechanisms implementing system use notification
+  - id: ra
+    class: family
+    title: Risk Assessment
+    controls:
+    - id: ra-5
+      class: SP800-53
+      title: Vulnerability Monitoring and Scanning
+      params:
+      - id: ra-5_prm_1
+        label: organization-defined frequency and/or randomly in accordance with organization-defined process
+      - id: ra-05_odp.01
+        label: frequency and/or randomly in accordance with organization-defined process
+        guidelines:
+        - prose: frequency for monitoring systems and hosted applications for vulnerabilities is defined;
+      - id: ra-05_odp.02
+        label: frequency and/or randomly in accordance with organization-defined process
+        guidelines:
+        - prose: frequency for scanning systems and hosted applications for vulnerabilities is defined;
+      - id: ra-05_odp.03
+        label: response times
+        guidelines:
+        - prose: response times to remediate legitimate vulnerabilities in accordance with an organizational assessment of risk are defined;
+      - id: ra-05_odp.04
+        label: personnel or roles
+        guidelines:
+        - prose: personnel or roles with whom information obtained from the vulnerability scanning process and control assessments is to be shared;
+      props:
+      - name: label
+        value: RA-5
+      - name: label
+        value: RA-05
+        class: sp800-53a
+      - name: sort-id
+        value: ra-05
+      links:
+      - href: '#8df72805-2e5c-4731-a73e-81db0f0318d0'
+        rel: reference
+      - href: '#155f941a-cba9-4afd-9ca6-5d040d697ba9'
+        rel: reference
+      - href: '#a21aef46-7330-48a0-b2e1-c5bb8b2dd11d'
+        rel: reference
+      - href: '#4895b4cd-34c5-4667-bf8a-27d443c12047'
+        rel: reference
+      - href: '#122177fa-c4ed-485d-8345-3082c0fb9a06'
+        rel: reference
+      - href: '#8016d2ed-d30f-4416-9c45-0f42c7aa3232'
+        rel: reference
+      - href: '#aa5d04e0-6090-4e17-84d4-b9963d55fc2c'
+        rel: reference
+      - href: '#d2ebec9b-f868-4ee1-a2bd-0b2282aed248'
+        rel: reference
+      - href: '#4c501da5-9d79-4cb6-ba80-97260e1ce327'
+        rel: reference
+      - href: https://raw.githubusercontent.com/usnistgov/oscal-content/ba2efa4c90155650b0fd536f3bffd13042ac6dc7/nist.gov/SP800-53/rev5/yaml/NIST_SP-800-53_rev5_LOW-baseline-resolved-profile_catalog.yaml#ca-2
+        rel: related
+      - href: https://raw.githubusercontent.com/usnistgov/oscal-content/ba2efa4c90155650b0fd536f3bffd13042ac6dc7/nist.gov/SP800-53/rev5/yaml/NIST_SP-800-53_rev5_LOW-baseline-resolved-profile_catalog.yaml#ca-7
+        rel: related
+      - href: '#ca-8'
+        rel: related
+      - href: https://raw.githubusercontent.com/usnistgov/oscal-content/ba2efa4c90155650b0fd536f3bffd13042ac6dc7/nist.gov/SP800-53/rev5/yaml/NIST_SP-800-53_rev5_LOW-baseline-resolved-profile_catalog.yaml#cm-2
+        rel: related
+      - href: https://raw.githubusercontent.com/usnistgov/oscal-content/ba2efa4c90155650b0fd536f3bffd13042ac6dc7/nist.gov/SP800-53/rev5/yaml/NIST_SP-800-53_rev5_LOW-baseline-resolved-profile_catalog.yaml#cm-4
+        rel: related
+      - href: https://raw.githubusercontent.com/usnistgov/oscal-content/ba2efa4c90155650b0fd536f3bffd13042ac6dc7/nist.gov/SP800-53/rev5/yaml/NIST_SP-800-53_rev5_LOW-baseline-resolved-profile_catalog.yaml#cm-6
+        rel: related
+      - href: https://raw.githubusercontent.com/usnistgov/oscal-content/ba2efa4c90155650b0fd536f3bffd13042ac6dc7/nist.gov/SP800-53/rev5/yaml/NIST_SP-800-53_rev5_LOW-baseline-resolved-profile_catalog.yaml#cm-8
+        rel: related
+      - href: https://raw.githubusercontent.com/usnistgov/oscal-content/ba2efa4c90155650b0fd536f3bffd13042ac6dc7/nist.gov/SP800-53/rev5/yaml/NIST_SP-800-53_rev5_LOW-baseline-resolved-profile_catalog.yaml#ra-2
+        rel: related
+      - href: https://raw.githubusercontent.com/usnistgov/oscal-content/ba2efa4c90155650b0fd536f3bffd13042ac6dc7/nist.gov/SP800-53/rev5/yaml/NIST_SP-800-53_rev5_LOW-baseline-resolved-profile_catalog.yaml#ra-3
+        rel: related
+      - href: '#sa-11'
+        rel: related
+      - href: '#sa-15'
+        rel: related
+      - href: '#sc-38'
+        rel: related
+      - href: https://raw.githubusercontent.com/usnistgov/oscal-content/ba2efa4c90155650b0fd536f3bffd13042ac6dc7/nist.gov/SP800-53/rev5/yaml/NIST_SP-800-53_rev5_LOW-baseline-resolved-profile_catalog.yaml#si-2
+        rel: related
+      - href: https://raw.githubusercontent.com/usnistgov/oscal-content/ba2efa4c90155650b0fd536f3bffd13042ac6dc7/nist.gov/SP800-53/rev5/yaml/NIST_SP-800-53_rev5_LOW-baseline-resolved-profile_catalog.yaml#si-3
+        rel: related
+      - href: https://raw.githubusercontent.com/usnistgov/oscal-content/ba2efa4c90155650b0fd536f3bffd13042ac6dc7/nist.gov/SP800-53/rev5/yaml/NIST_SP-800-53_rev5_LOW-baseline-resolved-profile_catalog.yaml#si-4
+        rel: related
+      - href: '#si-7'
+        rel: related
+      - href: https://raw.githubusercontent.com/usnistgov/oscal-content/ba2efa4c90155650b0fd536f3bffd13042ac6dc7/nist.gov/SP800-53/rev5/yaml/NIST_SP-800-53_rev5_LOW-baseline-resolved-profile_catalog.yaml#sr-11
+        rel: related
+      parts:
+      - id: ra-5_smt
+        name: statement
+        parts:
+        - id: ra-5_smt.a
+          name: item
+          props:
+          - name: label
+            value: a.
+          prose: "Monitor and scan for vulnerabilities in the system and hosted applications {{ insert: param, ra-5_prm_1 }} and when new vulnerabilities potentially affecting the system are identified and reported;"
+        - id: ra-5_smt.b
+          name: item
+          props:
+          - name: label
+            value: b.
+          prose: 'Employ vulnerability monitoring tools and techniques that facilitate interoperability among tools and automate parts of the vulnerability management process by using standards for:'
+          parts:
+          - id: ra-5_smt.b.1
+            name: item
+            props:
+            - name: label
+              value: "1."
+            prose: "Enumerating platforms, software flaws, and improper configurations;"
+          - id: ra-5_smt.b.2
+            name: item
+            props:
+            - name: label
+              value: "2."
+            prose: Formatting checklists and test procedures; and
+          - id: ra-5_smt.b.3
+            name: item
+            props:
+            - name: label
+              value: "3."
+            prose: Measuring vulnerability impact;
+        - id: ra-5_smt.c
+          name: item
+          props:
+          - name: label
+            value: c.
+          prose: Analyze vulnerability scan reports and results from vulnerability monitoring;
+        - id: ra-5_smt.d
+          name: item
+          props:
+          - name: label
+            value: d.
+          prose: "Remediate legitimate vulnerabilities {{ insert: param, ra-05_odp.03 }} in accordance with an organizational assessment of risk;"
+        - id: ra-5_smt.e
+          name: item
+          props:
+          - name: label
+            value: e.
+          prose: "Share information obtained from the vulnerability monitoring process and control assessments with {{ insert: param, ra-05_odp.04 }} to help eliminate similar vulnerabilities in other systems; and"
+        - id: ra-5_smt.f
+          name: item
+          props:
+          - name: label
+            value: f.
+          prose: Employ vulnerability monitoring tools that include the capability to readily update the vulnerabilities to be scanned.
+      - id: ra-5_gdn
+        name: guidance
+        prose: |-
+          Security categorization of information and systems guides the frequency and comprehensiveness of vulnerability monitoring (including scans). Organizations determine the required vulnerability monitoring for system components, ensuring that the potential sources of vulnerabilities—such as infrastructure components (e.g., switches, routers, guards, sensors), networked printers, scanners, and copiers—are not overlooked. The capability to readily update vulnerability monitoring tools as new vulnerabilities are discovered and announced and as new scanning methods are developed helps to ensure that new vulnerabilities are not missed by employed vulnerability monitoring tools. The vulnerability monitoring tool update process helps to ensure that potential vulnerabilities in the system are identified and addressed as quickly as possible. Vulnerability monitoring and analyses for custom software may require additional approaches, such as static analysis, dynamic analysis, binary analysis, or a hybrid of the three approaches. Organizations can use these analysis approaches in source code reviews and in a variety of tools, including web-based application scanners, static analysis tools, and binary analyzers.
+
+          Vulnerability monitoring includes scanning for patch levels; scanning for functions, ports, protocols, and services that should not be accessible to users or devices; and scanning for flow control mechanisms that are improperly configured or operating incorrectly. Vulnerability monitoring may also include continuous vulnerability monitoring tools that use instrumentation to continuously analyze components. Instrumentation-based tools may improve accuracy and may be run throughout an organization without scanning. Vulnerability monitoring tools that facilitate interoperability include tools that are Security Content Automated Protocol (SCAP)-validated. Thus, organizations consider using scanning tools that express vulnerabilities in the Common Vulnerabilities and Exposures (CVE) naming convention and that employ the Open Vulnerability Assessment Language (OVAL) to determine the presence of vulnerabilities. Sources for vulnerability information include the Common Weakness Enumeration (CWE) listing and the National Vulnerability Database (NVD). Control assessments, such as red team exercises, provide additional sources of potential vulnerabilities for which to scan. Organizations also consider using scanning tools that express vulnerability impact by the Common Vulnerability Scoring System (CVSS).
+
+          Vulnerability monitoring includes a channel and process for receiving reports of security vulnerabilities from the public at-large. Vulnerability disclosure programs can be as simple as publishing a monitored email address or web form that can receive reports, including notification authorizing good-faith research and disclosure of security vulnerabilities. Organizations generally expect that such research is happening with or without their authorization and can use public vulnerability disclosure channels to increase the likelihood that discovered vulnerabilities are reported directly to the organization for remediation.
+
+          Organizations may also employ the use of financial incentives (also known as "bug bounties" ) to further encourage external security researchers to report discovered vulnerabilities. Bug bounty programs can be tailored to the organization’s needs. Bounties can be operated indefinitely or over a defined period of time and can be offered to the general public or to a curated group. Organizations may run public and private bounties simultaneously and could choose to offer partially credentialed access to certain participants in order to evaluate security vulnerabilities from privileged vantage points.
+      - id: ra-5_obj
+        name: assessment-objective
+        props:
+        - name: label
+          value: RA-05
+          class: sp800-53a
+        parts:
+        - id: ra-5_obj.a
+          name: assessment-objective
+          props:
+          - name: label
+            value: RA-05a.
+            class: sp800-53a
+          parts:
+          - id: ra-5_obj.a-1
+            name: assessment-objective
+            props:
+            - name: label
+              value: "RA-05a.[01]"
+              class: sp800-53a
+            prose: "systems and hosted applications are monitored for vulnerabilities {{ insert: param, ra-05_odp.01 }} and when new vulnerabilities potentially affecting the system are identified and reported;"
+          - id: ra-5_obj.a-2
+            name: assessment-objective
+            props:
+            - name: label
+              value: "RA-05a.[02]"
+              class: sp800-53a
+            prose: "systems and hosted applications are scanned for vulnerabilities {{ insert: param, ra-05_odp.02 }} and when new vulnerabilities potentially affecting the system are identified and reported;"
+        - id: ra-5_obj.b
+          name: assessment-objective
+          props:
+          - name: label
+            value: RA-05b.
+            class: sp800-53a
+          prose: vulnerability monitoring tools and techniques are employed to facilitate interoperability among tools;
+          parts:
+          - id: ra-5_obj.b.1
+            name: assessment-objective
+            props:
+            - name: label
+              value: RA-05b.01
+              class: sp800-53a
+            prose: "vulnerability monitoring tools and techniques are employed to automate parts of the vulnerability management process by using standards for enumerating platforms, software flaws, and improper configurations;"
+          - id: ra-5_obj.b.2
+            name: assessment-objective
+            props:
+            - name: label
+              value: RA-05b.02
+              class: sp800-53a
+            prose: vulnerability monitoring tools and techniques are employed to facilitate interoperability among tools and to automate parts of the vulnerability management process by using standards for formatting checklists and test procedures;
+          - id: ra-5_obj.b.3
+            name: assessment-objective
+            props:
+            - name: label
+              value: RA-05b.03
+              class: sp800-53a
+            prose: vulnerability monitoring tools and techniques are employed to facilitate interoperability among tools and to automate parts of the vulnerability management process by using standards for measuring vulnerability impact;
+        - id: ra-5_obj.c
+          name: assessment-objective
+          props:
+          - name: label
+            value: RA-05c.
+            class: sp800-53a
+          prose: vulnerability scan reports and results from vulnerability monitoring are analyzed;
+        - id: ra-5_obj.d
+          name: assessment-objective
+          props:
+          - name: label
+            value: RA-05d.
+            class: sp800-53a
+          prose: "legitimate vulnerabilities are remediated {{ insert: param, ra-05_odp.03 }} in accordance with an organizational assessment of risk;"
+        - id: ra-5_obj.e
+          name: assessment-objective
+          props:
+          - name: label
+            value: RA-05e.
+            class: sp800-53a
+          prose: "information obtained from the vulnerability monitoring process and control assessments is shared with {{ insert: param, ra-05_odp.04 }} to help eliminate similar vulnerabilities in other systems;"
+        - id: ra-5_obj.f
+          name: assessment-objective
+          props:
+          - name: label
+            value: RA-05f.
+            class: sp800-53a
+          prose: vulnerability monitoring tools that include the capability to readily update the vulnerabilities to be scanned are employed.
+      - id: ra-5_asm-examine
+        name: assessment-method
+        props:
+        - name: method
+          ns: http://csrc.nist.gov/ns/rmf
+          value: EXAMINE
+        - name: label
+          value: RA-05-Examine
+          class: sp800-53a
+        parts:
+        - name: assessment-objects
+          prose: |-
+            Risk assessment policy
+
+            procedures addressing vulnerability scanning
+
+            risk assessment
+
+            assessment report
+
+            vulnerability scanning tools and associated configuration documentation
+
+            vulnerability scanning results
+
+            patch and vulnerability management records
+
+            system security plan
+
+            other relevant documents or records
+      - id: ra-5_asm-interview
+        name: assessment-method
+        props:
+        - name: method
+          ns: http://csrc.nist.gov/ns/rmf
+          value: INTERVIEW
+        - name: label
+          value: RA-05-Interview
+          class: sp800-53a
+        parts:
+        - name: assessment-objects
+          prose: |-
+            Organizational personnel with risk assessment, control assessment, and vulnerability scanning responsibilities
+
+            organizational personnel with vulnerability scan analysis responsibilities
+
+            organizational personnel with vulnerability remediation responsibilities
+
+            organizational personnel with security responsibilities
+
+            system/network administrators
+      - id: ra-5_asm-test
+        name: assessment-method
+        props:
+        - name: method
+          ns: http://csrc.nist.gov/ns/rmf
+          value: TEST
+        - name: label
+          value: RA-05-Test
+          class: sp800-53a
+        parts:
+        - name: assessment-objects
+          prose: |-
+            Organizational processes for vulnerability scanning, analysis, remediation, and information sharing
+
+            mechanisms supporting and/or implementing vulnerability scanning, analysis, remediation, and information sharing
+  back-matter:
+    resources:
+    - uuid: aa5d04e0-6090-4e17-84d4-b9963d55fc2c
+      title: IR 7788
+      citation:
+        text: "Singhal A, Ou X (2011) Security Risk Analysis of Enterprise Networks Using Probabilistic Attack Graphs. (National Institute of Standards and Technology, Gaithersburg, MD), NIST Interagency or Internal Report (IR) 7788."
+      rlinks:
+      - href: https://doi.org/10.6028/NIST.IR.7788
+    - uuid: d2ebec9b-f868-4ee1-a2bd-0b2282aed248
+      title: IR 8011-4
+      citation:
+        text: "Dempsey KL, Takamura E, Eavy P, Moore G (2020) Automation Support for Security Control Assessments: Volume 4: Software Vulnerability Management. (National Institute of Standards and Technology, Gaithersburg, MD), NIST Interagency or Internal Report (IR) 8011, Volume 4."
+      rlinks:
+      - href: https://doi.org/10.6028/NIST.IR.8011-4
+    - uuid: 4c501da5-9d79-4cb6-ba80-97260e1ce327
+      title: IR 8023
+      citation:
+        text: "Dempsey KL, Paulsen C (2015) Risk Management for Replication Devices. (National Institute of Standards and Technology, Gaithersburg, MD), NIST Interagency or Internal Report (IR) 8023."
+      rlinks:
+      - href: https://doi.org/10.6028/NIST.IR.8023
+    - uuid: 8df72805-2e5c-4731-a73e-81db0f0318d0
+      title: ISO 29147
+      citation:
+        text: "International Organization for Standardization/International Electrotechnical Commission 29147:2018, *Information technology—Security techniques—Vulnerability disclosure* , October 2018."
+      rlinks:
+      - href: https://www.iso.org/standard/72311.html
+    - uuid: 122177fa-c4ed-485d-8345-3082c0fb9a06
+      title: SP 800-115
+      citation:
+        text: "Scarfone KA, Souppaya MP, Cody A, Orebaugh AD (2008) Technical Guide to Information Security Testing and Assessment. (National Institute of Standards and Technology, Gaithersburg, MD), NIST Special Publication (SP) 800-115."
+      rlinks:
+      - href: https://doi.org/10.6028/NIST.SP.800-115
+    - uuid: 8016d2ed-d30f-4416-9c45-0f42c7aa3232
+      title: SP 800-126
+      citation:
+        text: "Waltermire DA, Quinn SD, Booth H, III, Scarfone KA, Prisaca D (2018) The Technical Specification for the Security Content Automation Protocol (SCAP): SCAP Version 1.3. (National Institute of Standards and Technology, Gaithersburg, MD), NIST Special Publication (SP) 800-126, Rev. 3."
+      rlinks:
+      - href: https://doi.org/10.6028/NIST.SP.800-126r3
+    - uuid: 155f941a-cba9-4afd-9ca6-5d040d697ba9
+      title: SP 800-40
+      citation:
+        text: "Souppaya MP, Scarfone KA (2013) Guide to Enterprise Patch Management Technologies. (National Institute of Standards and Technology, Gaithersburg, MD), NIST Special Publication (SP) 800-40, Rev. 3."
+      rlinks:
+      - href: https://doi.org/10.6028/NIST.SP.800-40r3
+    - uuid: a21aef46-7330-48a0-b2e1-c5bb8b2dd11d
+      title: SP 800-53A
+      citation:
+        text: "Joint Task Force Transformation Initiative (2014) Assessing Security and Privacy Controls in Federal Information Systems and Organizations: Building Effective Assessment Plans. (National Institute of Standards and Technology, Gaithersburg, MD), NIST Special Publication (SP) 800-53A, Rev. 4, Includes updates as of December 18, 2014."
+      rlinks:
+      - href: https://doi.org/10.6028/NIST.SP.800-53Ar4
+    - uuid: 4895b4cd-34c5-4667-bf8a-27d443c12047
+      title: SP 800-70
+      citation:
+        text: "Quinn SD, Souppaya MP, Cook MR, Scarfone KA (2018) National Checklist Program for IT Products: Guidelines for Checklist Users and Developers. (National Institute of Standards and Technology, Gaithersburg, MD), NIST Special Publication (SP) 800-70, Rev. 4."
+      rlinks:
+      - href: https://doi.org/10.6028/NIST.SP.800-70r4
