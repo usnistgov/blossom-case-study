@@ -101,7 +101,7 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       - name: Start application container
-        run: docker-compose up -d
+        run: docker compose up -d
       - uses: actions/setup-python@v4
         with:
           python-version: '3.10'
@@ -181,4 +181,4 @@ jobs:
               commit_sha: '${{ github.event.pull_request.head.sha }}'
             });
       - name: Shut down application container
-        run: docker-compose down
+        run: docker compose down
