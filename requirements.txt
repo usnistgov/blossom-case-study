@@ -2,7 +2,7 @@ beautifulsoup4==4.11.1
 chevron==0.14.0
 fastapi==0.88.0
 httpx==0.23.1
-Jinja2==3.1.2
+Jinja2==3.1.6
 jmespath==1.0.1
 pytest==9.0.3
 PyYAML==6.0
